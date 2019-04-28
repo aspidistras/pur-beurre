@@ -1,4 +1,4 @@
-"""food_platform URL Configuration
+"""basis URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/2.2/topics/http/urls/
@@ -17,8 +17,16 @@ from django.conf import settings
 from django.conf.urls import include, url
 from django.contrib import admin
 
+import sys
+sys.path.append('..')
+
+
+from open_food_facts import views
+
 
 urlpatterns = [
+    url(r'^$', views.index),
+    url(r'^open_food_facts', include('open_food_facts.urls')),
     url(r'^admin/', admin.site.urls),
 ]
 
