@@ -1,0 +1,71 @@
+{% extends 'open_food_facts/base.html' %}
+{% load static %}
+
+{% block content %}
+
+
+<!-- Main -->
+  <header class="masthead" id="main">
+    <div class="container h-100">
+      <div class="row h-100 align-items-center justify-content-center text-center">
+        <div class="col-lg-10 align-self-end">
+          <h1 class="text-uppercase text-white font-weight-bold">Du gras, oui, mais de qualité !</h1>
+          <hr class="divider my-4">
+        </div>
+        <div class="col-lg-8 align-self-baseline">
+          <h2 class="text-white-75 font-weight-light mb-5">Trouvez un produit de substitution pour ceux  que vous consommez tous les jours.</h2>
+          <input type="search" id="site-search" name="q" placeholder="Produit">
+          <a class="btn btn-primary btn-xl js-scroll-trigger" href="#about">Chercher</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- About Section -->
+  <section class="page-section bg-primary" id="about">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-lg-8 text-center">
+          <h2 class="text-white mt-0">Colette et Rémy</h2>
+          <hr class="divider light my-4">
+          <p class="text-white-50 mb-4">Nous sommes une jeune startup fondée par Remy et Colette Tatou, deux restaurateurs de renom. Notre restaurant, situé à Montmartre (Paris), compte une cinquantaine de couverts et ne désemplit pas. Notre spécialité, la ratatouille, nous attire une clientèle internationale charmée par les délices de ce plat typique.
+            Remy et Colette sont amoureux de la gastronomie française (on ne peut les blâmer !). Travaillant quotidiennement avec les meilleurs produits du terroir, ils affectionnent particulièrement la bonne chaire et aiment partager leur passion. Il est donc normal que Remy ait sauté au plafond quand Colette, un jour de déprime, sortit du placard un kilo de Nutella et l’attaqua à la petite cuillère. Pourquoi ne pas opter pour une pâte à tartiner aux noisettes, plus consistante et moins sucrée ? Pourquoi, oh pourquoi s’infliger une telle souffrance ? Rémy était sidéré. La réponse de Colette fut simple : elle n’avait pas trouvé de substitut assez convainquant. A vrai dire, elle n’avait même pas cherché.
+          </p>
+        </div>
+          <div class="row justify-content-center">
+            <div class="col-md-6 text-center">
+              <img src="{% static 'img/colette.png' %}" alt="Colette" id="colette-img" class="img-responsive">
+            </div>
+            <div class="col-md-6 text-center">
+              <img src="{% static 'img/remy.png' %}" alt="Rémy" id="remy-img" class="img-responsive">
+            </div>
+          </div>
+        </div>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section class="page-section" id="contact">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-lg-8 text-center">
+          <h2 class="mt-0">Contactez-nous !</h2>
+          <hr class="divider my-4">
+          <p class="text-muted mb-5">Des commentaires ? Des remarques ? Des suggestions ? Pur Beurre est à votre écoute.</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-4 ml-auto text-center">
+          <i class="fas fa-phone fa-3x mb-3 text-muted"></i>
+          <div>+33 1 12 34 56 78</div>
+        </div>
+        <div class="col-lg-4 mr-auto text-center">
+          <i class="fas fa-envelope fa-3x mb-3 text-muted"></i>
+          <!-- Make sure to change the email address in anchor text AND the link below! -->
+          <a class="d-block" href="mailto:contact@purbeurre.fr">contact@purbeure.fr</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+{% endblock %}

@@ -1,0 +1,53 @@
+#main{
+    background-image: url("../img/background.jpg");
+}
+
+.well img{
+display: inline-block;
+}
+
+#footer {
+    background-color: black;
+}
+
+.container-fluid {
+    margin: 0;
+    padding: 0;
+}
+
+#footer-up {
+    padding-bottom: 30px;
+}
+
+a:hover, a:visited {
+    color: grey;
+
+}
+
+#site-search {
+    background-color: lightgray;
+    border: solid;
+    border-color: black;
+    padding: 10px 10px 10px 10px;
+    border-radius: 20px;
+    text-align: center;
+}
+
+.nav-item {
+    padding: 10px;
+}
+
+#base-search {
+    background-color: lightgray;
+    border: solid;
+    border-color: black;
+    padding: 10px 10px 10px 10px;
+    margin-right: 30px;
+    margin-top: 10px;
+    border-radius: 20px;
+    text-align: center;
+    vertical-align: bottom;
+}
+
+
+
