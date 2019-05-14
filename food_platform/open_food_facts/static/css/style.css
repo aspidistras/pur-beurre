@@ -49,5 +49,8 @@ a:hover, a:visited {
     vertical-align: bottom;
 }
 
+figcaption {
+    color: rgba(255,255,255,.5);
+}
 
 

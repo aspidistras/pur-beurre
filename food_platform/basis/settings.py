@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'debug_toolbar',
     'open_food_facts',
+    'user',
 ]
 
 MIDDLEWARE = [
