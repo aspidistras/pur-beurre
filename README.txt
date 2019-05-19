@@ -19,6 +19,10 @@ https://pixabay.com/fr/vectors/contact-ami-icône-pion-personne-1293388/
 Carrot by Fabien Jouin from the Noun Project
 https://thenounproject.com/term/carrot/29691/
 
+https://www.kisspng.com/png-ratatouille-mouse-the-walt-disney-company-remy-rec-2698775/
+
+https://disney.fandom.com/wiki/Colette_Tatou
+
 
 CODE :
 

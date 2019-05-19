@@ -26,7 +26,7 @@ from open_food_facts import views
 
 urlpatterns = [
     url(r'^$', views.index),
-    url(r'^open_food_facts', include('open_food_facts.urls')),
+    url(r'^open_food_facts/', include('open_food_facts.urls')),
     url(r'^admin/', admin.site.urls),
 ]
 
