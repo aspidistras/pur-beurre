@@ -5,7 +5,7 @@ from django.shortcuts import render
 from django.shortcuts import render
 from django.http import HttpResponseRedirect, HttpResponse
 from django.template import loader
-from .forms import UserForm
+from .models import UserForm, User
 
 
 def index(request):
@@ -20,8 +20,16 @@ def get_user(request):
         form = UserForm(request.POST)
         # check whether it's valid:
         if form.is_valid():
+
+            user = User()
             # process the data in form.cleaned_data as required
-            # ...
+            user.username = form.cleaned_data['username']
+            user.name = form.cleaned_data['name']
+            user.surname = form.cleaned_data['surname']
+            user.email = form.cleaned_data['email']
+            user.password = form.cleaned_data['password']
+            user.save()
+
             # redirect to a new URL:
             return HttpResponseRedirect('/thanks/')
 
@@ -30,3 +38,8 @@ def get_user(request):
         form = UserForm()
 
     return render(request, 'open_food_facts/create-account.html', {'form': form})
+
+
+def thanks(request):
+    template = loader.get_template("open_food_facts/thanks.html")
+    return HttpResponse(template.render(request=request))

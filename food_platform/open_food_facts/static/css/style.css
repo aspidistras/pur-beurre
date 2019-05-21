@@ -2,6 +2,10 @@
     background-image: url("../img/background.jpg");
 }
 
+#main-account {
+    background-image: url("../img/background-account.jpg");
+}
+
 .well img{
 display: inline-block;
 }
@@ -31,6 +35,9 @@ a:hover, a:visited {
     padding: 10px 10px 10px 10px;
     border-radius: 20px;
     text-align: center;
+    width: 50%;
+    vertical-align: middle;
+    margin-top: 0px;
 }
 
 .nav-item {
@@ -95,10 +102,12 @@ input {
     text-align: center;
     vertical-align: bottom;
     width: 100%;
+
 }
 
 #submit-btn {
     margin-top: 40px;
     background-color: white;
+    width: 100%;
 }
 

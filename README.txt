@@ -23,6 +23,12 @@ https://www.kisspng.com/png-ratatouille-mouse-the-walt-disney-company-remy-rec-2
 
 https://disney.fandom.com/wiki/Colette_Tatou
 
+Photo by Kawin Harasai on Unsplash
+https://unsplash.com/photos/k60JspcBwKE
+
+Photo by Greg Jeanneau on Unsplash
+https://unsplash.com/photos/YTbFHT9_IhY
+
 
 CODE :
 
