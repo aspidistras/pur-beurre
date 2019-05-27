@@ -29,3 +29,5 @@ class UserForm(ModelForm):
         labels = {
             'username': 'Pseudo', 'name': 'Prénom', 'surname': 'Nom', 'password': 'Mot de passe',
         }
+
+

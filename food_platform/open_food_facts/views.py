@@ -5,7 +5,10 @@ from django.shortcuts import render
 from django.shortcuts import render
 from django.http import HttpResponseRedirect, HttpResponse
 from django.template import loader
-from .models import UserForm, User
+from django.contrib.auth.models import User
+from django.contrib.auth import authenticate, login
+from .models import UserForm
+from .forms import LoginForm
 
 
 def index(request):
@@ -21,13 +24,12 @@ def get_user(request):
         # check whether it's valid:
         if form.is_valid():
 
-            user = User()
             # process the data in form.cleaned_data as required
-            user.username = form.cleaned_data['username']
-            user.name = form.cleaned_data['name']
-            user.surname = form.cleaned_data['surname']
-            user.email = form.cleaned_data['email']
-            user.password = form.cleaned_data['password']
+            user = User.objects.create_user(username=form.cleaned_data['username'],
+                                            first_name=form.cleaned_data['name'],
+                                            last_name=form.cleaned_data['surname'],
+                                            email=form.cleaned_data['email'],
+                                            password=form.cleaned_data['password'])
             user.save()
 
             # redirect to a new URL:
@@ -43,3 +45,38 @@ def get_user(request):
 def thanks(request):
     template = loader.get_template("open_food_facts/thanks.html")
     return HttpResponse(template.render(request=request))
+
+
+def user_login(request):
+    if request.method == 'POST':
+        # create a form instance and populate it with data from the request:
+        form = LoginForm(request.POST)
+        # check whether it's valid:
+        if form.is_valid():
+            user = authenticate(username=form.cleaned_data['username'],
+                                password=form.cleaned_data['password'])
+            if user is not None:
+                # A backend authenticated the credentials
+                if user.is_active:
+                    login(request, user)
+                    return HttpResponseRedirect('/account/')
+            else:
+                # No backend authenticated the credentials
+                return HttpResponseRedirect('/login-error/')
+    else:
+        form = LoginForm()
+
+    return render(request, 'open_food_facts/login.html', {'form': form})
+
+
+def login_error(request):
+    template = loader.get_template("open_food_facts/login-error.html")
+    return HttpResponse(template.render(request=request))
+
+
+def account(request):
+    template = loader.get_template("open_food_facts/account.html")
+    return HttpResponse(template.render(request=request))
+
+
+
