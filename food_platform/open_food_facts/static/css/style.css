@@ -145,3 +145,14 @@ input {
     font-size: 2em;
     color: #f4623a;
 }
+
+#product {
+    height: 50vh;
+    background-color: #f4623a;
+    opacity: 0.7;
+
+}
+
+#product-page {
+    height: 100vh;
+}

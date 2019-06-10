@@ -6,12 +6,13 @@ from django.forms import ModelForm
 
 class Category(models.Model):
     name = models.CharField(max_length=100, unique=True)
+    id = models.CharField(max_length=100, unique=True)
 
 
 class Product(models.Model):
     name = models.CharField(max_length=100, unique=True)
     score = models.IntegerField()
-    category_id = models.ForeignKey(Category, on_delete=models.CASCADE)
+    category_id = models.ManyToManyField(Category.id)
 
 
 class User(models.Model):

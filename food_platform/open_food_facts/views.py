@@ -6,7 +6,7 @@ from django.shortcuts import render
 from django.http import HttpResponseRedirect, HttpResponse
 from django.template import loader
 from django.contrib.auth.models import User
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from .models import UserForm
 from .forms import LoginForm
 
@@ -69,14 +69,20 @@ def user_login(request):
     return render(request, 'open_food_facts/login.html', {'form': form})
 
 
-def login_error(request):
-    template = loader.get_template("open_food_facts/login-error.html")
-    return HttpResponse(template.render(request=request))
-
-
 def account(request):
     template = loader.get_template("open_food_facts/account.html")
     return HttpResponse(template.render(request=request))
+
+
+def product(request):
+    template = loader.get_template("open_food_facts/product.html")
+    return HttpResponse(template.render(request=request))
+
+
+def user_logout(request):
+    logout(request)
+    return HttpResponseRedirect('/')
+
 
 
 

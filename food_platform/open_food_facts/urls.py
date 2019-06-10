@@ -8,6 +8,7 @@ urlpatterns = [
     url(r'^user/$', views.get_user),
     url(r'^thanks/$', views.thanks),
     url(r'^login/$', views.user_login),
-    url(r'^login-error/$', views.login_error),
+    url(r'^product/$', views.product),
     url(r'^account/$', views.account),
+    url(r'^logout/$', views.user_logout),
 ]
