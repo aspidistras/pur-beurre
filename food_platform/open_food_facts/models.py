@@ -4,17 +4,6 @@ from django.forms import ModelForm
 # Create your models here.
 
 
-class Category(models.Model):
-    name = models.CharField(max_length=100, unique=True)
-    id = models.CharField(max_length=100, unique=True)
-
-
-class Product(models.Model):
-    name = models.CharField(max_length=100, unique=True)
-    score = models.IntegerField()
-    category_id = models.ManyToManyField(Category.id)
-
-
 class User(models.Model):
     username = models.CharField(max_length=100, unique=True)
     name = models.CharField(max_length=100)
@@ -30,5 +19,25 @@ class UserForm(ModelForm):
         labels = {
             'username': 'Pseudo', 'name': 'Prénom', 'surname': 'Nom', 'password': 'Mot de passe',
         }
+
+
+class Category(models.Model):
+    name = models.CharField(max_length=150, unique=True)
+    tag = models.CharField(max_length=150, unique=True)
+
+
+class Product(models.Model):
+    name = models.CharField(max_length=100, unique=True)
+    score = models.CharField(max_length=1)
+    category = models.ManyToManyField(Category)
+
+
+class Substitute(models.Model):
+    name = models.CharField(max_length=100, unique=True)
+    score = models.CharField(max_length=1)
+    category = models.ManyToManyField(Category)
+    user_id = models.ManyToManyField(User)
+
+
 
 

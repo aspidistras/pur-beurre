@@ -1,0 +1,51 @@
+{% extends 'open_food_facts/base.html' %}
+{% load static %}
+
+{% block content %}
+
+<header class="masthead" id="search">
+    <div class="container h-100">
+      <div class="row h-100 align-items-center justify-content-center text-center" id="listing">
+          {% if substitutes|length_is:"0" %}
+                <div class="text-center" id="no-results">
+                  Nous n'avons pas trouvé de résultats pour votre requête. Essayez un autre aliment !
+                    <input type="search" id="research" name="q" placeholder="Produit">
+                    <a class="btn btn-primary btn-xl js-scroll-trigger" href="#" id="research-button">Chercher</a>
+                </div>
+
+              {% else %}
+                {% for substitute in substitutes %}
+                    <div class="col-sm-4 text-center">
+                        <a href="{% url 'open_food_facts:search' substitute_id=substitute.id %}">
+                          <!--<img class="img-responsive" src="{{ substitute.picture }}" alt="{{ substitute.name }}">-->
+                        </a>
+                        <h3><a href="{% url 'open_food_facts:search' substitute_id=substitute.id %}">{{ substitute.name }}</a></h3>
+                        <!--{% for category in substitute.categories.all %}
+                            <p>{{ category.name }}</p>
+                        {% endfor %}-->
+                    </div>
+                    {% if forloop.counter|divisibleby:3 %}<div class="clearfix"></div>{% endif %}
+                    {% endfor %}
+
+                    {% endif %}
+
+              {% if paginate %}
+              <div class="clearfix"></div>
+              <nav aria-label="">
+                <ul class="pager">
+                  {% if substitutes.has_previous %}
+                      <li><a href="?page={{ substitutes.previous_page_number }}">Précédent</a></li>
+                  {% endif %}
+                  {% if substitutes.has_next %}
+                      <li><a href="?page={{ substitutes.next_page_number }}">Suivant</a></li>
+                  {% endif %}
+                </ul>
+              </nav>
+            {% endif %}
+
+      </div>
+    </div>
+  </header>
+
+
+{% endblock %}
