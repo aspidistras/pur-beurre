@@ -2,7 +2,7 @@ import requests
 import json
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from .constants import CATEGORIES_LIST_URL, PRODUCTS_LIST_URL, SCORES_LIST
-from .models import Category, Product
+from .models import Category, Product, Substitute
 
 
 def access_url(url):
@@ -40,12 +40,15 @@ def get_substitute(request):
     return display_products(request, substitutes_list)
 
 
-def save_substitute():
-    pass
+def save_substitute(request):
+    substitute = Substitute.create(name=request.GET['name'], score=request.GET['score'],
+                                   category=request.GET['category'], user_id=request.GET['user_id'])
+    substitute.save()
 
 
 def get_saved_substitutes(request):
-    pass
+    substitutes_list = Substitute.objects.filter(user_id=request.GET['user_id'])
+    return display_products(request, substitutes_list)
 
 
 def display_products(request, products_list):
