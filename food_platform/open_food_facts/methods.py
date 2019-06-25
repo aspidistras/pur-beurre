@@ -1,5 +1,6 @@
 import requests
 import json
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from .constants import CATEGORIES_LIST_URL, PRODUCTS_LIST_URL, SCORES_LIST
 from .models import Category, Product
 
@@ -34,5 +35,33 @@ def get_products():
                     product.save()
 
 
+def get_substitute(request):
+    substitutes_list = Product.objects.filter(score=request.GET['search'])[:24]
+    return display_products(request, substitutes_list)
 
+
+def save_substitute():
+    pass
+
+
+def get_saved_substitutes(request):
+    pass
+
+
+def display_products(request, products_list):
+    paginator = Paginator(products_list, 6)
+    page = request.GET.get('page')
+    try:
+        products = paginator.page(page)
+    except PageNotAnInteger:
+        # If page is not an integer, deliver first page.
+        products = paginator.page(1)
+    except EmptyPage:
+        # If page is out of range (e.g. 9999), deliver last page of results.
+        products = paginator.page(paginator.num_pages)
+    context = {
+        'products': products,
+        'paginate': True
+    }
+    return context
 

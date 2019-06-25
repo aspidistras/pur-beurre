@@ -7,14 +7,13 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.template import loader
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
-from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from .models import UserForm, Product, Category
 from .forms import LoginForm
-from .methods import get_products, get_categories
+from .methods import get_products, get_categories, display_products
 
 
 def index(request):
-    get_products()
+    """get_products()"""
     template = loader.get_template("open_food_facts/index.html")
     return HttpResponse(template.render(request=request))
 
@@ -87,24 +86,10 @@ def user_logout(request):
     return HttpResponseRedirect('/')
 
 
-def substitutes_search(request):
-    substitutes_list = Category.objects.filter(id__lte=20)
-    print(substitutes_list)
-    paginator = Paginator(substitutes_list, 6)
-    page = request.GET.get('page')
-    try:
-        substitutes = paginator.page(page)
-    except PageNotAnInteger:
-        # If page is not an integer, deliver first page.
-        substitutes = paginator.page(1)
-    except EmptyPage:
-        # If page is out of range (e.g. 9999), deliver last page of results.
-        substitutes = paginator.page(paginator.num_pages)
-    context = {
-        'substitutes': substitutes,
-        'paginate': True
-    }
-    return render(request, "open_food_facts/listing.html", context)
+def search(request):
+    substitutes_list = Category.objects.all()
+    return render(request, "open_food_facts/listing.html", display_products(request,
+                                                                            substitutes_list))
 
 
 
