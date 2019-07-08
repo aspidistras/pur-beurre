@@ -9,7 +9,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from .models import UserForm, Product, Category
 from .forms import LoginForm
-from .methods import get_products, get_categories, display_products
+from .methods import get_products, get_categories, display_products, get_substitutes, get_saved_substitutes
 
 
 def index(request):
@@ -33,6 +33,7 @@ def get_user(request):
                                             email=form.cleaned_data['email'],
                                             password=form.cleaned_data['password'])
             user.save()
+            form.clean()
 
             # redirect to a new URL:
             return HttpResponseRedirect('/thanks/')
@@ -87,9 +88,12 @@ def user_logout(request):
 
 
 def search(request):
-    substitutes_list = Category.objects.all()
-    return render(request, "open_food_facts/listing.html", display_products(request,
-                                                                            substitutes_list))
+    return render(request, "open_food_facts/listing.html", get_substitutes(request))
+
+
+def user_products(request):
+    return render(request, "open_food_facts/substitutes.html",
+                  get_saved_substitutes(request))
 
 
 

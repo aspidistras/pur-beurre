@@ -36,7 +36,7 @@
   <nav class="navbar navbar-expand-lg navbar-light fixed-top py-3" id="mainNav">
     <div class="container">
       <a class="navbar-brand js-scroll-trigger" href="#page-top">
-        <a class="navbar-brand" href="#">
+        <a class="navbar-brand" href="/">
               <img src="{% static 'img/logo.png' %}" alt="" id="logo-menu">
           Pur Beurre
         </a>
@@ -47,23 +47,41 @@
       <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul class="navbar-nav ml-auto my-2 my-lg-0">
           <li class="nav-item text-center">
-            <input type="search" id="base-search" name="q" placeholder="Chercher">
+            <form method="post" action="{% url 'open_food_facts:search' %}">
+                {% csrf_token %}
+                 <input type="search" id="base-search" name="search" placeholder="Chercher">
+            </form>
+
           </li>
           <li class="nav-item text-center nav-logo">
-            <a href="#">
-              <img src="{% static 'img/user.png' %}" alt="" id="logo-user">
-            </a>
+            {% if user.is_authenticated %}
+              <a href="/account/">
+                <img src="{% static 'img/user.png' %}" alt="" id="logo-user">
+              </a>
+            {% else %}
+              <a href="/login/">
+                <img src="{% static 'img/user.png' %}" alt="" id="logo-user">
+              </a>
+            {% endif %}
           </li>
           <li class="nav-item text-center nav-logo">
-            <a href="#">
-              <img src="{% static 'img/food.png' %}" alt="" id="logo-food">
-            </a>
+            {% if user.is_authenticated %}
+              <a href="/substitutes/">
+                <img src="{% static 'img/food.png' %}" alt="" id="logo-food">
+              </a>
+            {% else %}
+               <a href="/login/">
+                <img src="{% static 'img/food.png' %}" alt="" id="logo-food">
+               </a>
+            {% endif %}
           </li>
-          <li class="nav-item text-center nav-logo">
-            <a href="#">
-              <img src="{% static 'img/logout.png' %}" alt="" id="logo-logout">
-            </a>
-          </li>
+          {% if user.is_authenticated %}
+            <li class="nav-item text-center nav-logo">
+              <a href="/logout/">
+                <img src="{% static 'img/logout.png' %}" alt="" id="logo-logout">
+              </a>
+            </li>
+          {% endif %}
         </ul>
       </div>
     </div>
@@ -78,7 +96,7 @@
     <div class="container">
       <div class="row text-center" id="footer-up">
         <div class="col-md-3">
-          <a href="" class="logo-link">
+          <a href="/legal-notice/" class="logo-link">
             <img src="{% static 'img/paper.jpg' %}" alt="Logo mentions légales">
             <div class="small text-center text-muted">Mentions légales</div>
           </a>
@@ -116,6 +134,7 @@
 
   <!-- Custom scripts for this template -->
   <script src="{% static 'js/creative.min.js' %}"></script>
+  <script src="{% static 'js/food_platform.js' %}"></script>
 
 </body>
 

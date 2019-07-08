@@ -83,7 +83,7 @@ figcaption {
     opacity: 0.8;
     font-size: 20px;
     margin-bottom: 40px;
-    margin-top: 100px;
+    margin-top: 50px;
     width: 60%;
 }
 
@@ -111,6 +111,10 @@ input {
     width: 100%;
 }
 
+#signin-btn {
+    background-color: white;
+    width: 100%;
+}
 
 #thanks-message {
     color: rgba(255,255,255,.7);
@@ -146,16 +150,7 @@ input {
     color: #f4623a;
 }
 
-#product {
-    height: 50vh;
-    background-color: #f4623a;
-    opacity: 0.7;
 
-}
-
-#product-page {
-    height: 100vh;
-}
 
 #no-results {
     color: rgba(255,255,255,.7);
@@ -189,4 +184,95 @@ input {
 
 #research-button {
     margin-top: 30px;
+}
+
+
+.flex {
+	width: 80px;
+	height: 40px;
+	line-height: 80px;
+	background-color: lightgray;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	margin: -25px 0 0 -25vw;
+}
+
+
+#pagination {
+    display: flex;
+    padding: 0;
+    margin: 0;
+    box-shadow: 0 10px 20px 0 rgba(black, 0.25);
+    list-style: none;
+    background-color: lightgray;
+    border: solid;
+    border-color: black;
+    padding: 10px 10px 10px 10px;
+    border-radius: 20px;
+    text-align: center;
+}
+
+.page-item, .disabled, .page-link, .next, .previous {
+    flex: 1;
+    list-style: none;
+    text-align: center;
+    position: relative;
+    font-size: 17px;
+    font-weight: bold;
+    cursor: pointer;
+    user-select: none;
+    background-color: lightgray;
+    vertical-align: center;
+
+}
+
+#pagination a {
+  color: black;
+  float: left;
+  padding: 8px 16px;
+  text-decoration: none;
+}
+
+.page-link.active {
+  background-color: black;
+  color: white;
+}
+
+#pagination a:hover:not(.active) {background-color: #ddd;}
+
+
+#details {
+    margin-top: 10px;
+    padding-top: 30px;
+    min-height: 30vh;
+    padding-bottom: 30px;
+}
+
+#access-details {
+    margin-top: 50px;
+}
+
+.title {
+    margin-bottom: 30px;
+}
+
+#product {
+    height: 50vh;
+    background-color: #f4623a;
+    opacity: 0.7;
+
+}
+
+#product-page {
+    min-height: 100vh;
+}
+
+.pic {
+    height: 50px;
+    witdth: 50px;
+}
+
+.errorlist{
+  display: none;
 }

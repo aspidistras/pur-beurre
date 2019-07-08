@@ -11,6 +11,10 @@
             {{ form.as_p }}
             <input type="submit" value="Accéder à mon espace" id="submit-btn">
           </form>
+          <form action="/user/" method="post" id="login">
+            {% csrf_token %}
+            <input type="submit" value="Créer mon compte" id="signin-btn">
+          </form>
       </div>
     </div>
   </header>

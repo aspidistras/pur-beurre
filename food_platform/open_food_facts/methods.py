@@ -6,7 +6,7 @@ from .models import Category, Product, Substitute
 
 
 def access_url(url):
-    request = requests.get(url)
+    request = requests.POST(url)
     result = json.loads(request.text)
     return result
 
@@ -25,35 +25,46 @@ def get_products():
     for score in SCORES_LIST:
         products_list = access_url(PRODUCTS_LIST_URL.format(score))
         for i, p in enumerate(products_list['products']):
-            if products_list['products'][i]['product_name_fr'] and products_list['products'][i]['nutrition_grades'] and not Product.objects.filter(name=products_list['products'][i]['product_name_fr']).exists():
-                product = Product.objects.create(name=products_list['products'][i]['product_name_fr'],
-                                                 score=products_list['products'][i]['nutrition_grades'])
-                product.save()
-                for category in products_list['products'][i]['categories_tags']:
-                    category = Category.objects.filter(tag=category).values('id')
-                    product.category.add(category[0]['id'])
+            try:
+                if products_list['products'][i]['product_name_fr']:
+                    product = Product.objects.create(
+                        name=products_list['products'][i]['product_name_fr'],
+                        score=products_list['products'][i]['nutrition_grades'],
+                        image=products_list['products'][i]['image_small_url'],
+                        calories=products_list['products'][i]['nutriments']['energy_100g'],
+                        fats=products_list['products'][i]['nutriments']['fat_100g'],
+                        carbs=products_list['products'][i]['nutriments']['carbohydrates_100g'],
+                        proteins=products_list['products'][i]['nutriments']['proteins_100g'],
+                        salt=products_list['products'][i]['nutriments']['sodium_100g'],
+                        url=products_list['products'][i]['url'])
                     product.save()
+                    for cat in products_list['products'][i]['categories_tags']:
+                        category = Category.objects.filter(tag=cat)
+                        product.category.add(*category)
+                        product.save()
+            except KeyError:
+                pass
 
 
-def get_substitute(request):
-    substitutes_list = Product.objects.filter(score=request.GET['search'])[:24]
+def get_substitutes(request):
+    substitutes_list = Product.objects.filter(score=request.POST['search'])[:24]
     return display_products(request, substitutes_list)
 
 
 def save_substitute(request):
-    substitute = Substitute.create(name=request.GET['name'], score=request.GET['score'],
-                                   category=request.GET['category'], user_id=request.GET['user_id'])
+    substitute = Substitute.create(name=request.POST['name'], score=request.POST['score'],
+                                   category=request.POST['category'], user_id=request.POST['user_id'])
     substitute.save()
 
 
 def get_saved_substitutes(request):
-    substitutes_list = Substitute.objects.filter(user_id=request.GET['user_id'])
+    substitutes_list = Substitute.objects.filter(user_id=request.POST['user_id'])
     return display_products(request, substitutes_list)
 
 
 def display_products(request, products_list):
     paginator = Paginator(products_list, 6)
-    page = request.GET.get('page')
+    page = request.POST('page')
     try:
         products = paginator.page(page)
     except PageNotAnInteger:

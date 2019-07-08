@@ -8,6 +8,7 @@
       <div class="row h-100 align-items-center justify-content-center text-center">
           <form action="/user/" method="post" id="account-creation">
             {% csrf_token %}
+              {{ form.message.errors }}
             {{ form.as_p }}
             <input type="submit" value="Créer mon compte" id="submit-btn">
         </form>

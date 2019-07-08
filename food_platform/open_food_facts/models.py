@@ -21,6 +21,8 @@ class UserForm(ModelForm):
         }
 
 
+
+
 class Category(models.Model):
     name = models.CharField(max_length=150, unique=True)
     tag = models.CharField(max_length=150, unique=True)
@@ -30,6 +32,13 @@ class Product(models.Model):
     name = models.CharField(max_length=100, unique=True)
     score = models.CharField(max_length=1)
     category = models.ManyToManyField(Category)
+    image = models.ImageField(max_length=300)
+    calories = models.FloatField()
+    fats = models.FloatField()
+    carbs = models.FloatField()
+    proteins = models.FloatField()
+    salt = models.FloatField()
+    url = models.URLField(max_length=300)
 
 
 class Substitute(models.Model):
