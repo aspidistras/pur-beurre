@@ -1,0 +1,15 @@
+{% extends 'open_food_facts/listing.html' %}
+{% load static %}
+
+{% block div %}
+
+
+Nous n'avons pas trouvé de résultats pour votre requête. Essayez un autre aliment !
+<form method="post" action="{% url 'open_food_facts:search' %}">
+    {% csrf_token %}
+     <input type="search" id="research" name="search" placeholder="Produit">
+</form>
+<a class="btn btn-primary btn-xl js-scroll-trigger" href="/search/" id="research-button">Chercher</a>
+
+
+{% endblock %}

@@ -8,9 +8,7 @@
       <div class="row h-100 align-items-center justify-content-center text-center" id="listing">
           {% if products|length_is:"0" %}
                 <div class="text-center" id="no-results">
-                  Nous n'avons pas trouvé de résultats pour votre requête. Essayez un autre aliment !
-                    <input type="search" id="research" name="q" placeholder="Produit">
-                    <a class="btn btn-primary btn-xl js-scroll-trigger" href="#" id="research-button">Chercher</a>
+                  {% block div %} {% endblock %}
                 </div>
 
               {% else %}

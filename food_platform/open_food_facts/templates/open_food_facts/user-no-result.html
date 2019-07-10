@@ -1,0 +1,15 @@
+{% extends 'open_food_facts/listing.html' %}
+{% load static %}
+
+{% block div %}
+
+
+Vous n'avez pas encore enregistré d'aliment. Cherchez un produit pour trouver un substitut !
+<form method="post" action="{% url 'open_food_facts:search' %}">
+    {% csrf_token %}
+     <input type="search" id="research" name="search" placeholder="Produit">
+</form>
+<a class="btn btn-primary btn-xl js-scroll-trigger" href="/search/" id="research-button">Chercher</a>
+
+
+{% endblock %}

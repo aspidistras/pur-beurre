@@ -64,7 +64,7 @@ def get_saved_substitutes(request):
 
 def display_products(request, products_list):
     paginator = Paginator(products_list, 6)
-    page = request.POST('page')
+    page = request.POST.get('page')
     try:
         products = paginator.page(page)
     except PageNotAnInteger:
@@ -73,9 +73,18 @@ def display_products(request, products_list):
     except EmptyPage:
         # If page is out of range (e.g. 9999), deliver last page of results.
         products = paginator.page(paginator.num_pages)
-    context = {
-        'products': products,
-        'paginate': True
-    }
+
+    if len(products_list) is not 0:
+        context = {
+            'products': products,
+            'paginate': True,
+            'empty': False
+        }
+    else:
+        context = {
+            'products': products,
+            'paginate': False,
+            'empty': True
+        }
     return context
 

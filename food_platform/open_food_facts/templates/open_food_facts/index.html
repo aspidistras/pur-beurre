@@ -16,7 +16,7 @@
           <h2 class="text-white-75 font-weight-light mb-5">Trouvez un produit de substitution pour ceux  que vous consommez tous les jours.</h2>
           <form method="post" action="{% url 'open_food_facts:search' %}">
                 {% csrf_token %}
-                 <input type="search" id="site-search" name="q" placeholder="Produit">
+                 <input type="search" id="site-search" name="search" placeholder="Produit">
                  <a class="btn btn-primary btn-xl js-scroll-trigger" href="/search/">Chercher</a>
             </form>
         </div>

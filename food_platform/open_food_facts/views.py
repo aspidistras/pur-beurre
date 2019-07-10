@@ -88,12 +88,19 @@ def user_logout(request):
 
 
 def search(request):
-    return render(request, "open_food_facts/listing.html", get_substitutes(request))
+    substitutes = get_substitutes(request)
+    if substitutes['empty'] is True:
+        return render(request, "open_food_facts/search-no-result.html", substitutes)
+    else:
+        return render(request, "open_food_facts/listing.html", substitutes)
 
 
 def user_products(request):
-    return render(request, "open_food_facts/substitutes.html",
-                  get_saved_substitutes(request))
+    substitutes = get_saved_substitutes(request)
+    if substitutes['empty'] is True:
+        return render(request, "open_food_facts/user-no-result.html", substitutes)
+    else:
+        return render(request, "open_food_facts/listing.html", substitutes)
 
 
 
