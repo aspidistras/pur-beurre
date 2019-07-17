@@ -13,6 +13,6 @@ urlpatterns = [
     url(r'^account/$', views.account),
     url(r'^logout/$', views.user_logout),
     url(r'^search/$', views.search, name='search'),
-    url(r'^product/$', views.product),
+    url(r'^product/(?P<product_id>[0-9]+)/$', views.details, name='product'),
     url(r'^substitutes/$', views.get_saved_substitutes)
 ]

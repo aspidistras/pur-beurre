@@ -5,16 +5,24 @@
 
 <header class="masthead" id="search">
     <div class="container h-100">
-      <div class="row h-100 align-items-center justify-content-center text-center" id="listing">
+      <div class="row align-items-center justify-content-center text-center" id="listing">
           {% if products|length_is:"0" %}
                 <div class="text-center" id="no-results">
                   {% block div %} {% endblock %}
                 </div>
-
               {% else %}
+          <!--<div class="listing">
+                <div class="row">
+                    {% block select %} {% endblock %}
+                </div>
+              <div class="row align-items-center justify-content-center text-center products">
                 {% for product in products %}
-                    <div class="col-sm-4 text-center">
-                    {{ product.id }}
+
+                    <div class="col-sm-4 text-center product">
+                         <a href="{% url 'open_food_facts:product' product_id=product.id %}">
+                          <img class="img-responsive pic-product" src="{{ product.image }}" alt="{{ product.name }}">
+                        </a>
+                        <h5><a href="{% url 'open_food_facts:product' product_id=product.id %}" class="text-white-75 font-weight-light mb-5 product-name">{{ product.name }}</a></h5>
                     </div>
                     {% if forloop.counter|divisibleby:3 %}<div class="clearfix"></div>{% endif %}
                     {% endfor %}
@@ -58,6 +66,31 @@
         {% endif %}
 
       </div>
+      </div>-->
+          {% for product in products %}
+    {# Each "contact" is a Contact model object. #}
+    {{ product.name|upper }}<br>
+    ...
+{% endfor %}
+
+<div class="pagination">
+    <span class="step-links">
+        {% if products.has_previous %}
+            <a href="?page=1">&laquo; first</a>
+            <a href="?page={{ products.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ products.number }} of {{ products.paginator.num_pages }}.
+        </span>
+
+        {% if products.has_next %}
+            <a href="?page={{ products.next_page_number }}">next</a>
+            <a href="?page={{ products.paginator.num_pages }}">last &raquo;</a>
+        {% endif %}
+    </span>
+</div>
+    </div>
     </div>
 </header>
 

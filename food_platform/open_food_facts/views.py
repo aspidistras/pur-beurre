@@ -2,7 +2,7 @@ from django.shortcuts import render
 
 # Create your views here.
 
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponseRedirect, HttpResponse
 from django.template import loader
 from django.contrib.auth.models import User
@@ -13,7 +13,8 @@ from .methods import get_products, get_categories, display_products, get_substit
 
 
 def index(request):
-    """get_products()"""
+    """get_categories()"""
+    get_products()
     template = loader.get_template("open_food_facts/index.html")
     return HttpResponse(template.render(request=request))
 
@@ -77,9 +78,9 @@ def account(request):
     return HttpResponse(template.render(request=request))
 
 
-def product(request):
-    template = loader.get_template("open_food_facts/product.html")
-    return HttpResponse(template.render(request=request))
+def details(request, product_id):
+    product = get_object_or_404(Product, pk=product_id)
+    return render(request, "open_food_facts/product.html", {'product': product})
 
 
 def user_logout(request):
@@ -89,10 +90,10 @@ def user_logout(request):
 
 def search(request):
     substitutes = get_substitutes(request)
-    if substitutes['empty'] is True:
+    """if substitutes['empty'] is True:
         return render(request, "open_food_facts/search-no-result.html", substitutes)
-    else:
-        return render(request, "open_food_facts/listing.html", substitutes)
+    else:"""
+    return render(request, "open_food_facts/results-products.html", substitutes)
 
 
 def user_products(request):

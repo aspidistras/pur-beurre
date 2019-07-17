@@ -243,14 +243,15 @@ input {
 
 
 #details {
-    margin-top: 10px;
-    padding-top: 30px;
-    min-height: 30vh;
-    padding-bottom: 30px;
+    height: 40vh;
+    margin: auto;
+    padding: 70px 70px;
+    vertical-align: middle;
+    min-height: auto;
 }
 
 #access-details {
-    margin-top: 50px;
+    margin-top: 30px;
 }
 
 .title {
@@ -258,21 +259,85 @@ input {
 }
 
 #product {
-    height: 50vh;
+    height: 60vh;
     background-color: #f4623a;
     opacity: 0.7;
+    position: relative;
+    padding: auto;
+    margin: auto;
+    color: white;
+    min-height: auto;
+
 
 }
 
 #product-page {
-    min-height: 100vh;
+    max-height: 100vh;
+    min-height: auto;
 }
 
-.pic {
-    height: 50px;
-    witdth: 50px;
+#display {
+    position: absolute;
+    bottom: 30px;
+    margin: auto;
+    left: 0;
+    right: 0;
+    margin-bottom: 70px
+
+}
+
+.btns {
+    vertical-align: middle;
+    width: auto;
+    padding: 30px 30px;
+    height: 200px;
+    margin: auto;
+
+}
+
+.pic-product {
+    margin-bottom: 20px;
+    border: solid 0.2rem;
+    border-color: white;
+}
+
+#pic-score {
+     max-width: 400px;
+     max-height: 400px;
 }
 
 .errorlist{
   display: none;
+}
+
+.product-btn {
+    margin-bottom: 20px;
+    border: solid white;
+}
+
+.listing {
+    color: rgba(255,255,255,.7);
+    font-weight: 900;
+    font-family: "Merriweather Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+    text-align: left;
+    background-color: black;
+    padding: 20px;
+    border-radius: 20px;
+    border: solid;
+    border-color: black;
+    opacity: 0.8;
+    font-size: 10px;
+    margin: 30px;
+    margin-top: 50px;
+    height: auto;
+
+}
+
+.msg {
+    margin-top: 15px
+}
+
+.product {
+    margin-bottom: 20px;
+
 }
