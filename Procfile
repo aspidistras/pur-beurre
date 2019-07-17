@@ -1,1 +1,1 @@
-web: gunicorn food_platform.wsgi
+web: gunicorn open_food_facts.wsgi
