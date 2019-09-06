@@ -9,12 +9,13 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from .models import UserForm, Product, Category
 from .forms import LoginForm
-from .methods import get_products, get_categories, display_products, get_substitutes, get_saved_substitutes
+from .methods import get_products, get_categories, get_substitutes, get_saved_substitutes, \
+    get_products_search
 
 
 def index(request):
     """get_categories()"""
-    get_products()
+    """get_products()"""
     template = loader.get_template("open_food_facts/index.html")
     return HttpResponse(template.render(request=request))
 
@@ -88,12 +89,19 @@ def user_logout(request):
     return HttpResponseRedirect('/')
 
 
-def search(request):
+def search_products(request):
+    products = get_products_search(request)
+    if len(products['products']) is 0:
+        products['paginate'] = False
+        return render(request, "open_food_facts/search-no-result.html", products)
+
+    else:
+        return render(request, "open_food_facts/results-products.html", products)
+
+
+def search_substitutes(request):
     substitutes = get_substitutes(request)
-    """if substitutes['empty'] is True:
-        return render(request, "open_food_facts/search-no-result.html", substitutes)
-    else:"""
-    return render(request, "open_food_facts/results-products.html", substitutes)
+    return render(request, "open_food_facts/results-substitutes.html", substitutes)
 
 
 def user_products(request):

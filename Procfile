@@ -1,1 +1,1 @@
-web: gunicorn open_food_facts.wsgi
+web: gunicorn basis.wsgi
