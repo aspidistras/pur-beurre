@@ -64,20 +64,16 @@ def get_products_search(request):
             PRODUCTS_LIST = Product.objects.filter(name__icontains=query).order_by('name')
             QUERY = query
 
-    return display_products(request, PRODUCTS_LIST)
+    return display_products(request, PRODUCTS_LIST, QUERY)
 
 
-def get_substitutes(request):
-    product = Product.objects.get(pk=request.POST.get('product_id'))
-    substitutes_list = Product.objects.filter(score__lte=product.score).exclude(product.id).values()[:24]
-    return display_products(request, substitutes_list)
+def get_substitutes(request, product_id):
+    product = Product.objects.get(pk=product_id)
+    categories = product.categories.values_list('id')
+    substitutes_list = Product.objects.filter(score__lte=product.score).filter(
+        categories__in=categories).order_by('name')[:24]
 
-
-def save_substitute(request):
-    user = User.objects.get(pk=request.user.id)
-    product = Product.objects.get(pk=request.POST.get('product_id'))
-    substitute = Substitute.objects.create(user=user, product=product)
-    substitute.save()
+    return display_products(request, substitutes_list, query=None)
 
 
 def get_saved_substitutes(request):
@@ -86,7 +82,7 @@ def get_saved_substitutes(request):
     return display_products(request, substitutes_list)
 
 
-def display_products(request, products_list):
+def display_products(request, products_list, query):
     paginator = Paginator(products_list, 6)
     page = request.GET.get('page')
     try:
@@ -100,7 +96,7 @@ def display_products(request, products_list):
 
     context = {
         'products': products,
-        'search': QUERY,
+        'search': query,
         'paginate': True,
     }
 

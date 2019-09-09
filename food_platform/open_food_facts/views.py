@@ -7,7 +7,7 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.template import loader
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
-from .models import UserForm, Product, Category
+from .models import UserForm, Product, Category, Substitute
 from .forms import LoginForm
 from .methods import get_products, get_categories, get_substitutes, get_saved_substitutes, \
     get_products_search
@@ -99,9 +99,17 @@ def search_products(request):
         return render(request, "open_food_facts/results-products.html", products)
 
 
-def search_substitutes(request):
-    substitutes = get_substitutes(request)
+def search_substitutes(request, product_id):
+    substitutes = get_substitutes(request, product_id)
     return render(request, "open_food_facts/results-substitutes.html", substitutes)
+
+
+def save_substitute(request, product_id):
+    user = User.objects.get(pk=request.user.id)
+    product = Product.objects.get(pk=product_id)
+    substitute = Substitute.objects.create(user=user, product=product)
+    substitute.save()
+    return render(request, "open_food_facts/index.html")
 
 
 def user_products(request):

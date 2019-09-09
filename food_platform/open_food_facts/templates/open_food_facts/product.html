@@ -29,7 +29,7 @@
         <div class="container">
           <div class="row text-center align-items-center justify-content-center">
               <div class="col-lg-6 text-center btns">
-                <a class="btn btn-primary btn-xl js-scroll-trigger product-btn" href="{{ product.url }}">Ajouter à mes produits favoris</a>
+                <a class="btn btn-primary btn-xl js-scroll-trigger product-btn" href="{% url 'open_food_facts:save-substitute' product_id=product.id %}">Ajouter à mes produits favoris</a>
                 <a class="btn btn-primary btn-xl js-scroll-trigger product-btn" href="{{ product.url }}">Voir la fiche d'Open Food Facts</a>
               </div>
 

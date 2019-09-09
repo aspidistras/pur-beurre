@@ -1,1 +1,1 @@
-web: gunicorn basis.wsgi
+web: gunicorn FoodPlatform.wsgi
