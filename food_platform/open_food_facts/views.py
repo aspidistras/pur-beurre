@@ -91,6 +91,7 @@ def user_logout(request):
 
 def search_products(request):
     products = get_products_search(request)
+    print(products)
     if len(products['products']) is 0:
         products['paginate'] = False
         return render(request, "open_food_facts/search-no-result.html", products)
@@ -113,11 +114,14 @@ def save_substitute(request, product_id):
 
 
 def user_products(request):
-    substitutes = get_saved_substitutes(request)
-    if substitutes['empty'] is True:
-        return render(request, "open_food_facts/user-no-result.html", substitutes)
+    products = get_saved_substitutes(request)
+    print(products)
+    if len(products['products']) is 0:
+        products['paginate'] = False
+        return render(request, "open_food_facts/user-no-result.html", products)
+
     else:
-        return render(request, "open_food_facts/listing.html", substitutes)
+        return render(request, "open_food_facts/user-substitutes.html", products)
 
 
 

@@ -251,15 +251,9 @@ margin-top: 30px;
 }
 
 #product {
-    height: 60vh;
     background-color: #f4623a;
     opacity: 0.7;
-    position: relative;
-    padding: auto;
-    margin: auto;
     color: white;
-    min-height: auto;
-
 
 }
 
@@ -291,6 +285,7 @@ margin-top: 30px;
     margin-bottom: 20px;
     border: solid 0.2rem;
     border-color: white;
+
 }
 
 #pic-score {
@@ -334,4 +329,16 @@ margin-top: 30px;
 .product {
     margin-bottom: 20px;
 
+}
+
+#nutriscore {
+    position: absolute;
+    top: -10%;
+    right: 15%;
+    border: solid white;
+    border-radius: 50px;
+    background-color: black;
+    width: 50px;
+    height: 40px;
+    text-transform : capitalize;
 }
