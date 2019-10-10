@@ -1,1 +1,1 @@
-web: gunicorn food_platform.wsgi --log-file -
+web: gunicorn basis.wsgi:application --log-file -
