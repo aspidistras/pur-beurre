@@ -1,0 +1,63 @@
+{% extends 'open_food_facts/base.html' %}
+{% load static %}
+
+{% block content %}
+
+ <header class="masthead" id="main">
+    <div class="container h-100">
+      <div class="row h-100 align-items-center justify-content-center text-center">
+          <div id="legal">
+              <p><h3>Mentions Légales</h3></p>
+              <div class="row  align-items-center justify-content-center text-center">
+                  <div class="text-center">Site hébergé par</div>
+                  <a href="https://www.heroku.com/">
+                    <img src="{% static 'img/heroku.png' %}" alt="Logo Heroku" id="logo-heroku">
+                  </a>
+
+              </div>
+              <div class="row align-items-center justify-content-center text-center">
+                  <div class="text-center">Template et thème de base fournis par </div>
+                  <a href="https://startbootstrap.com/themes/creative/">
+                      <div class="link-ln">Start Bootstrap</div>
+                  </a>
+              </div>
+
+               <div class="row align-items-center justify-content-center text-center">
+                   <div class="text-center">Backgrounds :</div>
+              </div>
+              <div>
+                  <div>
+                        <a href="https://unsplash.com/photos/eqsEZNCm4-c">
+                            <div class="link-ln">Photo by Olenka Kotyk on Unsplash</div>
+                        </a>
+                    </div>
+                   <div>
+                        <a href="https://unsplash.com/photos/YTbFHT9_IhY">
+                            <div class="link-ln">Photo by Greg Jeanneau on Unsplash</div>
+                        </a>
+                    </div>
+                   <div>
+                        <a href="https://unsplash.com/photos/k60JspcBwKE">
+                            <div class="link-ln">Photo by Kawin Harasai on Unsplash</div>
+                        </a>
+                    </div>
+              </div>
+
+              <div class="row align-items-center justify-content-center text-center">
+                  <div class="text-center">Les liens vers mes autres ressources sont disponibles </div>
+                  <a href="https://github.com/ClemMourot/FoodPlatform/blob/master/README.txt">
+                      <div class="link-ln">ici</div>
+                  </a>
+              </div>
+
+        </div>
+          </div>
+
+      </div>
+    </div>
+  </header>
+
+
+
+
+{% endblock %}

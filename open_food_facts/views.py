@@ -7,6 +7,7 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.template import loader
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
+from django.contrib import messages
 from .models import UserForm, Product, Category, Substitute
 from .forms import LoginForm
 from .methods import get_products, get_categories, get_substitutes, get_saved_substitutes, \
@@ -17,6 +18,11 @@ def index(request):
     """get_categories()"""
     """get_products()"""
     template = loader.get_template("open_food_facts/index.html")
+    return HttpResponse(template.render(request=request))
+
+
+def legal_notices(request):
+    template = loader.get_template("open_food_facts/legal-notices.html")
     return HttpResponse(template.render(request=request))
 
 
@@ -110,12 +116,12 @@ def save_substitute(request, product_id):
     product = Product.objects.get(pk=product_id)
     substitute = Substitute.objects.create(user=user, product=product)
     substitute.save()
-    return render(request, "open_food_facts/index.html")
+    messages.success(request, 'Le produit " ' + product.name + ' " a bien été enregistré dans vos produits !')
+    return render(request, "open_food_facts/product.html", {'product': product})
 
 
 def user_products(request):
     products = get_saved_substitutes(request)
-    print(products)
     if len(products['products']) is 0:
         products['paginate'] = False
         return render(request, "open_food_facts/user-no-result.html", products)

@@ -10662,7 +10662,7 @@ hr.light {
   }
 }
 
-header.masthead {
+/*header.masthead {
   padding-top: 10rem;
   padding-bottom: calc(10rem - 72px);
   background: -webkit-gradient(linear, left top, left bottom, from(rgba(92, 77, 66, 0.8)), to(rgba(92, 77, 66, 0.8))), url("../img/bg-masthead.jpg");
@@ -10671,7 +10671,7 @@ header.masthead {
   background-repeat: no-repeat;
   background-attachment: scroll;
   background-size: cover;
-}*/
+}
 
 header.masthead h1 {
   font-size: 2.25rem;
@@ -10697,6 +10697,7 @@ header.masthead h1 {
     font-size: 3.5rem;
   }
 }
+*/
 
 #portfolio .container-fluid {
   max-width: 1920px;
