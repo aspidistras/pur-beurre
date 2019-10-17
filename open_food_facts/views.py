@@ -1,4 +1,4 @@
-from django.shortcuts import render
+
 
 # Create your views here.
 
@@ -8,8 +8,8 @@ from django.template import loader
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
-from .models import UserForm, Product, Category, Substitute
-from .forms import LoginForm
+from .models import Product, Category, Substitute
+from .forms import LoginForm, UserForm
 from .methods import get_products, get_categories, get_substitutes, get_saved_substitutes, \
     get_products_search
 
@@ -36,8 +36,8 @@ def get_user(request):
 
             # process the data in form.cleaned_data as required
             user = User.objects.create_user(username=form.cleaned_data['username'],
-                                            first_name=form.cleaned_data['name'],
-                                            last_name=form.cleaned_data['surname'],
+                                            first_name=form.cleaned_data['first_name'],
+                                            last_name=form.cleaned_data['last_name'],
                                             email=form.cleaned_data['email'],
                                             password=form.cleaned_data['password'])
             user.save()

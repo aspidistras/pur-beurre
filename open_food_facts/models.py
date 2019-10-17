@@ -1,5 +1,4 @@
 from django.db import models
-from django.forms import ModelForm
 from django.contrib.auth.models import User
 
 # Create your models here.
@@ -29,13 +28,6 @@ class Substitute(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
 
 
-class UserForm(ModelForm):
-    class Meta:
-        model = User
-        fields = ['username', 'first_name', 'last_name', 'email', 'password']
-        labels = {
-            'username': 'Pseudo', 'first_name': 'Prénom', 'last_name': 'Nom', 'password': 'Mot de passe',
-        }
 
 
 

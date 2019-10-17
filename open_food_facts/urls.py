@@ -7,15 +7,15 @@ app_name = 'open_food_facts'
 
 urlpatterns = [
     url(r'^$', views.index, name='index'),
-    url(r'^user/$', views.get_user),
+    url(r'^user/$', views.get_user, name="get_new_user"),
     url(r'^thanks/$', views.thanks),
-    url(r'^login/$', views.user_login),
-    url(r'^account/$', views.account),
+    url(r'^login/$', views.user_login, name="login"),
+    url(r'^account/$', views.account, name="account"),
     url(r'^logout/$', views.user_logout),
     url(r'^search/$', views.search_products, name='search'),
-    url(r'^search-substitutes/(?P<product_id>[0-9]+)/$', views.search_substitutes, name='search-substitutes'),
+    url(r'^search-substitutes/(?P<product_id>[0-9]+)/$', views.search_substitutes, name='search_substitutes'),
     url(r'^product/(?P<product_id>[0-9]+)/$', views.details, name='product'),
-    url(r'^save-substitute/(?P<product_id>[0-9]+)/$', views.save_substitute, name='save-substitute'),
+    url(r'^save-substitute/(?P<product_id>[0-9]+)/$', views.save_substitute, name='save_substitute'),
     url(r'^substitutes/$', views.user_products),
-    url(r'^legal-notices/$', views.legal_notices)
+    url(r'^legal-notices/$', views.legal_notices, name='legal_notices')
 ]
