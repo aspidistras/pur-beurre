@@ -27,7 +27,7 @@ from open_food_facts import views
 sys.path.append('..')
 
 
-URLPATTERNS = [
+urlpatterns = [
     url(r'^$', views.index),
     url(r'^', include('open_food_facts.urls', namespace='open_food_facts')),
     url(r'^admin/', admin.site.urls),
@@ -35,6 +35,6 @@ URLPATTERNS = [
 
 if settings.DEBUG:
     import debug_toolbar
-    URLPATTERNS = [
+    urlpatterns = [
         url(r'^__debug__/', include(debug_toolbar.urls)),
-    ] + URLPATTERNS
+    ] + urlpatterns

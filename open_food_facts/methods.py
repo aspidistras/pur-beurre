@@ -50,7 +50,7 @@ def get_products():
                                 product.save()
 
                     except KeyError or DataError or ValidationError:
-                        pass
+                        continue
 
 
 def get_categories():
@@ -82,7 +82,7 @@ def get_substitutes(request, product_id):
     product = Product.objects.get(pk=product_id)
     categories = product.categories.values_list('id')
     substitutes_list = Product.objects.filter(score__lte=product.score).filter(
-        categories__in=categories).order_by('name')[:24]
+        categories__in=categories).order_by('name').exclude(id=product_id)[:24]
 
     return display_products(request, substitutes_list, query=None)
 

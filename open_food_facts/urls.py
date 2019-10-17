@@ -3,9 +3,9 @@ from django.conf.urls import url
 from . import views  # import views so we can use them in urls.
 
 
-APP_NAME = 'open_food_facts'
+app_name = 'open_food_facts'
 
-URLPATTERNS = [
+urlpatterns = [
     url(r'^$', views.index, name='index'),
     url(r'^user/$', views.get_user, name="get_new_user"),
     url(r'^thanks/$', views.thanks),
