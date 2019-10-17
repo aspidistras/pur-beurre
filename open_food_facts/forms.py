@@ -15,7 +15,6 @@ class UserForm(ModelForm):
         model = User
         fields = ['username', 'first_name', 'last_name', 'email', 'password']
         labels = {
-            'username': 'Pseudo', 'first_name': 'Prénom', 'last_name': 'Nom', 'password': 'Mot de passe',
+            'username': 'Pseudo', 'first_name': 'Prénom', 'last_name': 'Nom',
+            'password': 'Mot de passe',
         }
-
-

@@ -3,7 +3,9 @@ import json
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.db import DataError
 from django.core.exceptions import ValidationError
-from .constants import CATEGORIES_LIST_URL, PRODUCTS_LIST_URL, SCORES_LIST, SCORE_IMAGES_LIST, PRODUCTS_INFO_URL
+
+from .constants import CATEGORIES_LIST_URL, PRODUCTS_LIST_URL, SCORES_LIST, SCORE_IMAGES_LIST, \
+    PRODUCTS_INFO_URL
 from .models import Category, Product, Substitute, User
 
 
@@ -22,17 +24,21 @@ def get_products():
             for i, p in enumerate(products_list['products']):
                 for score_image_url in SCORE_IMAGES_LIST:
                     try:
-                        if products_list['products'][i]['product_name_fr'] and not Product.objects.filter(name=products_list['products'][i]['product_name_fr']).exists():
+                        if products_list['products'][i]['product_name_fr'] and not \
+                                Product.objects.filter(
+                                    name=products_list['products'][i]['product_name_fr']).exists():
                             product = Product.objects.create(
                                 name=products_list['products'][i]['product_name_fr'],
                                 score=products_list['products'][i]['nutrition_grades'],
                                 score_image=score_image_url)
-                            print(product.id)
                             product.image = products_list['products'][i]['image_small_url']
-                            product.calories = products_list['products'][i]['nutriments']['energy_value']
+                            product.calories = \
+                                products_list['products'][i]['nutriments']['energy_value']
                             product.fats = products_list['products'][i]['nutriments']['fat_100g']
-                            product.carbs = products_list['products'][i]['nutriments']['carbohydrates_100g']
-                            product.proteins = products_list['products'][i]['nutriments']['proteins_100g']
+                            product.carbs = \
+                                products_list['products'][i]['nutriments']['carbohydrates_100g']
+                            product.proteins = \
+                                products_list['products'][i]['nutriments']['proteins_100g']
                             product.salt = products_list['products'][i]['nutriments']['sodium_100g']
                             product.url = products_list['products'][i]['url']
                             product.clean_fields()
@@ -84,7 +90,7 @@ def get_substitutes(request, product_id):
 def get_saved_substitutes(request):
     user = User.objects.get(pk=request.user.id)
     substitutes_id_list = Substitute.objects.filter(user=user).values_list('id')
-    substitutes_list = Product.objects.filter(id__in=substitutes_id_list)
+    substitutes_list = Product.objects.filter(id__in=substitutes_id_list).order_by('id')
     return display_products(request, substitutes_list, query=None)
 
 
@@ -107,4 +113,3 @@ def display_products(request, products_list, query):
     }
 
     return context
-

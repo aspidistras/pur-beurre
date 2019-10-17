@@ -97,7 +97,6 @@ def user_logout(request):
 
 def search_products(request):
     products = get_products_search(request)
-    print(products)
     if len(products['products']) is 0:
         products['paginate'] = False
         return render(request, "open_food_facts/search-no-result.html", products)
@@ -111,12 +110,13 @@ def search_substitutes(request, product_id):
     return render(request, "open_food_facts/results-substitutes.html", substitutes)
 
 
-def save_substitute(request, product_id):
-    user = User.objects.get(pk=request.user.id)
+def save_substitute(request, product_id, user_id):
+    user = User.objects.get(pk=user_id)
     product = Product.objects.get(pk=product_id)
     substitute = Substitute.objects.create(user=user, product=product)
     substitute.save()
-    messages.success(request, 'Le produit " ' + product.name + ' " a bien été enregistré dans vos produits !')
+    messages.success(request, 'Le produit " ' + product.name
+                     + ' " a bien été enregistré dans vos produits !')
     return render(request, "open_food_facts/product.html", {'product': product})
 
 
@@ -128,6 +128,3 @@ def user_products(request):
 
     else:
         return render(request, "open_food_facts/user-substitutes.html", products)
-
-
-

@@ -26,12 +26,3 @@ class Product(models.Model):
 class Substitute(models.Model):
     product = models.OneToOneField(Product, on_delete=models.CASCADE)
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-
-
-
-
-
-
-
-
-

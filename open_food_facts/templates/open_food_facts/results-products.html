@@ -11,11 +11,11 @@
 {% block display %}
 
 <div class="col-sm-4 text-center product">
-     <a href="{% url 'open_food_facts:search-substitutes' product_id=product.id %}">
+     <a href="{% url 'open_food_facts:search_substitutes' product_id=product.id %}">
         <img class="img-responsive pic-product" src="{{ product.image }}" alt="{{ product.name }}">
      </a>
      <h5>
-         <a href="{% url 'open_food_facts:search-substitutes' product_id=product.id %}" class="text-white-75 font-weight-light mb-5 product-name">{{ product.name }}
+         <a href="{% url 'open_food_facts:search_substitutes' product_id=product.id %}" class="text-white-75 font-weight-light mb-5 product-name">{{ product.name }}
          </a>
      </h5>
 
