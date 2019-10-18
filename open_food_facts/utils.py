@@ -1,5 +1,8 @@
-import requests
+"""methods to access and manage data module"""
+
 import json
+import requests
+
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.db import DataError
 from django.core.exceptions import ValidationError
@@ -10,18 +13,22 @@ from .models import Category, Product, Substitute, User
 
 
 def access_url(url):
+    """returns json result when accessing an url"""
+
     request = requests.get(url)
     result = json.loads(request.text)
     return result
 
 
 def get_products():
+    """accesses Open Food Facts data and fills database with products"""
+
     for score in SCORES_LIST:
         products_list_info = access_url(PRODUCTS_INFO_URL.format(score))
         pages_count = int(products_list_info['count'] / 20 + 1)
         for page in range(pages_count):
             products_list = access_url(PRODUCTS_LIST_URL.format(score, page))
-            for i, p in enumerate(products_list['products']):
+            for i, product in enumerate(products_list['products']):
                 for score_image_url in SCORE_IMAGES_LIST:
                     try:
                         if products_list['products'][i]['product_name_fr'] and not \
@@ -54,8 +61,10 @@ def get_products():
 
 
 def get_categories():
+    """accesses Open Food Facts data and fills database with categories"""
+
     categories_list = access_url(CATEGORIES_LIST_URL)
-    for i, c in enumerate(categories_list['tags']):
+    for i, category in enumerate(categories_list['tags']):
         if categories_list['tags'][i]['name'] and categories_list['tags'][i]['id'] and not \
                 Category.objects.filter(name=categories_list['tags'][i]['name']).exists():
             category = Category.objects.create(name=categories_list['tags'][i]['name'],
@@ -64,6 +73,7 @@ def get_categories():
 
 
 def get_products_search(request):
+    """searches product matching the user's request"""
 
     global PRODUCTS_LIST
     global QUERY
@@ -79,6 +89,8 @@ def get_products_search(request):
 
 
 def get_substitutes(request, product_id):
+    """finds substitutes matching the user's chosen product"""
+
     product = Product.objects.get(pk=product_id)
     categories = product.categories.values_list('id')
     substitutes_list = Product.objects.filter(score__lte=product.score).filter(
@@ -88,6 +100,8 @@ def get_substitutes(request, product_id):
 
 
 def get_saved_substitutes(request):
+    """finds the user's saved products"""
+
     user = User.objects.get(pk=request.user.id)
     substitutes_id_list = Substitute.objects.filter(user=user).values_list('id')
     substitutes_list = Product.objects.filter(id__in=substitutes_id_list).order_by('id')
@@ -95,6 +109,8 @@ def get_saved_substitutes(request):
 
 
 def display_products(request, products_list, query):
+    """returns context to be displayed by template with paginated products list"""
+
     paginator = Paginator(products_list, 6)
     page = request.GET.get('page')
     try:

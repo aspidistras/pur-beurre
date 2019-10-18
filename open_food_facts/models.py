@@ -1,16 +1,20 @@
+"""models creating module"""
+
 from django.db import models
 from django.contrib.auth.models import User
 
-# Create your models here.
-
 
 class Category(models.Model):
+    """model defining categories attributes"""
+
     name = models.CharField(max_length=150, unique=True)
     tag = models.CharField(max_length=150, unique=True)
 
 
 class Product(models.Model):
-    name = models.CharField(max_length=100, unique=True)
+    """model defining products attributes"""
+
+    name = models.CharField(max_length=200, unique=True)
     score = models.CharField(max_length=1)
     score_image = models.ImageField(max_length=300)
     image = models.ImageField(max_length=300, null=True)
@@ -24,5 +28,7 @@ class Product(models.Model):
 
 
 class Substitute(models.Model):
+    """model defining substitutes attributes"""
+
     product = models.OneToOneField(Product, on_delete=models.CASCADE)
     user = models.OneToOneField(User, on_delete=models.CASCADE)

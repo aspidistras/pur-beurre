@@ -1,3 +1,5 @@
+"""urlpatterns defining module"""
+
 from django.conf.urls import url
 
 from . import views  # import views so we can use them in urls.
@@ -5,6 +7,7 @@ from . import views  # import views so we can use them in urls.
 
 app_name = 'open_food_facts'
 
+# declares all url patterns of the app with the linked view to use
 urlpatterns = [
     url(r'^$', views.index, name='index'),
     url(r'^user/$', views.get_user, name="get_new_user"),
