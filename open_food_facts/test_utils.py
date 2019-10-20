@@ -30,7 +30,9 @@ class GetDataTestCase(TestCase):
     def test_get_products_search(self):
         """asserts that searches give expected result"""
 
+        # set search parameter
         search = "Nutella"
+        # get response
         response = self.client.post(reverse('open_food_facts:search'), {'search': search})
         self.assertEqual(response.context['products'].object_list[0].name, "Nutella")
 
@@ -38,6 +40,7 @@ class GetDataTestCase(TestCase):
         """asserts that substitutes searching gives expected result"""
 
         product_id = self.product.id
+        # get response
         response = self.client.get(reverse('open_food_facts:search_substitutes',
                                            args=(product_id,)))
         self.assertEqual(response.context['products'].object_list[0].name,
@@ -50,6 +53,7 @@ class GetDataTestCase(TestCase):
         old_substitutes = Substitute.objects.count()
         product_id = self.substitute.id
         user_id = self.user.id
+        # get response
         self.client.get(reverse('open_food_facts:save_substitute', args=(product_id, user_id,)))
         new_substitutes = Substitute.objects.count()
         # if there's one more substitute in the database after calling the save_substitute view,

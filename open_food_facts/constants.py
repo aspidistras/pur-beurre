@@ -10,4 +10,5 @@ SCORE_IMAGES_LIST = ["/static/img/nutriscore_a.png", "/static/img/nutriscore_b.p
                      "/static/img/nutriscore_c.png", "/static/img/nutriscore_d.png",
                      "/static/img/nutriscore_e.png"]
 
+# change to alter number of pages cruised to retrieve products from API
 MAX_PAGES_NUMBER = 30

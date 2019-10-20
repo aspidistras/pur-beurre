@@ -16,6 +16,7 @@ class IndexPageTestCase(TestCase):
     def test_index_page(self):
         """checks that index page returns status code 200"""
 
+        # get response
         response = self.client.get(reverse('open_food_facts:index'))
         self.assertEqual(response.status_code, 200)
 
@@ -26,6 +27,7 @@ class LegalNoticesPageTestCase(TestCase):
     def test_legal_notices_page(self):
         """checks that legal notices page returns status code 200"""
 
+        # get response
         response = self.client.get(reverse('open_food_facts:legal_notices'))
         self.assertEqual(response.status_code, 200)
 
@@ -44,6 +46,7 @@ class UserPagesTestCase(TestCase):
     def test_user_is_logged_in(self):
         """checks that account page returns status code 200 which means user is logged in"""
 
+        # get response
         response = self.client.post(reverse('open_food_facts:account'))
         self.assertEqual(response.status_code, 200)
 
@@ -52,12 +55,14 @@ class UserPagesTestCase(TestCase):
         which means user is not logged in anymore"""
 
         self.client.logout()
+        # get response
         response = self.client.post(reverse('open_food_facts:login'))
         self.assertEqual(response.status_code, 200)
 
     def test_user_access_to_substitutes(self):
         """checks that saved substitutes page returns status code 200"""
 
+        # get response
         response = self.client.post(reverse('open_food_facts:user_products'))
         self.assertEqual(response.status_code, 200)
 
@@ -83,6 +88,7 @@ class SubstitutePagesTestCase(TestCase):
         """checks that product's details page returns status code 200"""
 
         product_id = self.product.id
+        # get response
         response = self.client.get(reverse('open_food_facts:details', args=(product_id,)))
         self.assertEqual(response.status_code, 200)
 
@@ -90,6 +96,7 @@ class SubstitutePagesTestCase(TestCase):
         """checks that product searching page returns status code 200"""
 
         search = "Nutella"
+        # get response
         response = self.client.post(reverse('open_food_facts:search'), {'search': search})
         self.assertEqual(response.status_code, 200)
 
@@ -97,6 +104,7 @@ class SubstitutePagesTestCase(TestCase):
         """checks that substitute searching page returns status code 200"""
 
         product_id = self.product.id
+        # get response
         response = self.client.get(reverse('open_food_facts:search_substitutes',
                                            args=(product_id,)))
         self.assertEqual(response.status_code, 200)
@@ -106,6 +114,7 @@ class SubstitutePagesTestCase(TestCase):
 
         product_id = self.substitute.id
         user_id = self.user.id
+        # get response
         response = self.client.get(reverse('open_food_facts:save_substitute',
                                            args=(product_id, user_id,)))
         self.assertEqual(response.status_code, 200)
