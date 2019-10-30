@@ -32,6 +32,8 @@ else:
 
 ALLOWED_HOSTS = ['0.0.0.0', 'localhost']
 
+LOGIN_URL = "/login"
+
 # Application definition
 
 INSTALLED_APPS = [

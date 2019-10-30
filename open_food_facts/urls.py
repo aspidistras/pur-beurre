@@ -19,7 +19,7 @@ urlpatterns = [
     url(r'^search-substitutes/(?P<product_id>[0-9]+)/$', views.search_substitutes,
         name='search_substitutes'),
     url(r'^product/(?P<product_id>[0-9]+)/$', views.details, name='details'),
-    url(r'^save-substitute/(?P<product_id>[0-9]+)/(?P<user_id>[0-9]+)/$', views.save_substitute,
+    url(r'^save-substitute/(?P<product_id>[0-9]+)/$', views.save_substitute,
         name='save_substitute'),
     url(r'^substitutes/$', views.user_products, name="user_products"),
     url(r'^legal-notices/$', views.legal_notices, name='legal_notices')

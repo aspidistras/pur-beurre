@@ -4,95 +4,52 @@ import json
 import requests
 
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
-from django.db import DataError
-from django.core.exceptions import ValidationError
 
 from .constants import CATEGORIES_LIST_URL, PRODUCTS_LIST_URL, SCORES_LIST, SCORE_IMAGES_LIST, \
-    MAX_PAGES_NUMBER
+    MAX_PAGES_NUMBER, SEARCH_URL
 # uncomment to get all products
 # from .constants import PRODUCTS_INFO_URL
 from .models import Category, Product, Substitute, User
 
 
-def access_url(url):
+def access_url(url, parameters):
     """returns json result when accessing an url"""
 
-    request = requests.get(url)
+    request = requests.get(url, params=parameters)
     # get json result for url
     result = json.loads(request.text)
     return result
 
 
-def get_products():
-    """accesses Open Food Facts data and fills database with products"""
+def create_products(products):
+    for product in products:
+        # create Product instance if product doesn't already exist and has a french name
+        try:
+            if not Product.objects.filter(url=product['url']).exists():
+                prod = Product.objects.create(
+                    name=product['product_name'],
+                    score=product['nutrition_grade_fr'],
+                    score_image=SCORE_IMAGES_LIST[product['nutrition_grade_fr']],
+                    image=product['image_small_url'],
+                    calories=product['nutriments']['energy_value'],
+                    fats=product['nutriments']['fat_100g'],
+                    carbs=product['nutriments']['carbohydrates_100g'],
+                    proteins=product['nutriments']['proteins_100g'],
+                    salt=product['nutriments']['sodium_100g'],
+                    url=product['url'])
+                # browse categories_tags to add categories to product
+                for cat in product['categories_tags']:
+                    if not Category.objects.filter(tag=cat).exists():
+                        category = Category.objects.create(tag=cat)
+                        prod.categories.add(category)
 
-    print("Produits en cours d'ajout à la base de données...")
+                    else:
+                        category = Category.objects.filter(tag=cat)
+                        prod.categories.add(*category)
 
-    # browse nutrition grades
-    for score, score_image_url in zip(SCORES_LIST, SCORE_IMAGES_LIST):
-
-        # uncomment and replace MAX_PAGES_NUMBER by pages_count to get all products
-        # products_list_info = access_url(PRODUCTS_INFO_URL.format(score))
-        # pages_count = int(products_list_info['count'] / 20 + 1)
-
-        # browse pages for each nutrition grade
-        for page in range(1, MAX_PAGES_NUMBER):
-            # get products list for each page
-            products_list = access_url(PRODUCTS_LIST_URL.format(score, page))
-            # browse products
-            for i, product in enumerate(products_list['products']):
-                try:
-                    # create Product instance if product doesn't already exist and has a french name
-                    if products_list['products'][i]['product_name_fr'] and not \
-                            Product.objects.filter(
-                                name=products_list['products'][i]['product_name_fr']).exists():
-                        product = Product.objects.create(
-                            name=products_list['products'][i]['product_name_fr'],
-                            score=products_list['products'][i]['nutrition_grades'],
-                            score_image=score_image_url)
-                        # add needed info to product
-                        product.image = products_list['products'][i]['image_small_url']
-                        product.calories = \
-                            products_list['products'][i]['nutriments']['energy_value']
-                        product.fats = products_list['products'][i]['nutriments']['fat_100g']
-                        product.carbs = \
-                            products_list['products'][i]['nutriments']['carbohydrates_100g']
-                        product.proteins = \
-                            products_list['products'][i]['nutriments']['proteins_100g']
-                        product.salt = products_list['products'][i]['nutriments']['sodium_100g']
-                        product.url = products_list['products'][i]['url']
-                        product.clean_fields()
-                        product.save()
-                        # browse categories_tags to add categories to product
-                        for cat in products_list['products'][i]['categories_tags']:
-                            category = Category.objects.filter(tag=cat)
-                            product.categories.add(*category)
-                            product.clean_fields()
-                            product.save()
-
-                except KeyError or DataError or ValidationError:
-                    continue
-
-    print("Tous les produits ont été ajoutés à la base de données !")
-
-
-def get_categories():
-    """accesses Open Food Facts data and fills database with categories"""
-
-    print("Catégories en cours d'ajout à la base de données...")
-
-    # get categories list from API
-    categories_list = access_url(CATEGORIES_LIST_URL)
-    # browse categories
-    for i, category in enumerate(categories_list['tags']):
-        # create Category instance if category doesn't already exist and has a name and an id
-        if categories_list['tags'][i]['name'] and categories_list['tags'][i]['id'] and not \
-                Category.objects.filter(name=categories_list['tags'][i]['name']).exists():
-            category = Category.objects.create(name=categories_list['tags'][i]['name'],
-                                               tag=categories_list['tags'][i]['id'])
-            category.save()
-
-    print("Toutes les catégories ont été ajoutées à la base de données !")
+                    prod.save()
+        except KeyError:
+            continue
 
 
 def get_products_search(request):
@@ -110,6 +67,15 @@ def get_products_search(request):
         # if query exists
         if query:
             # get products that match query
+            parameters = {
+                'action': 'process',
+                'page_size': '15',
+                'search_terms': query,
+                'json': '1',
+            }
+            products = access_url(SEARCH_URL, parameters)
+            create_products(products['products'])
+
             PRODUCTS_LIST = Product.objects.filter(name__icontains=query).order_by('name')
             QUERY = query
 
@@ -121,14 +87,36 @@ def get_substitutes(request, product_id):
 
     # get product to substitute
     product = Product.objects.get(pk=product_id)
+
     # get categories from product to substitute
     categories = product.categories.values_list('id', flat=True)
     # turn the query set into a list to use later
     categories_list = list(categories)
 
     # get temporary substitutes with matching categories to original product as a list to use later
-    temporary_substitutes = list(Product.objects.filter(score__lte=product.score).filter(
+    potential_substitutes = list(Product.objects.filter(score__lt=product.score).filter(
         categories__in=categories).order_by('score').exclude(id=product_id))
+
+    if len(potential_substitutes) < 3:
+        # get categories from product to substitute
+        categories_tag = product.categories.values_list('tag', flat=True)
+        # turn the query set into a list to use later
+        categories_list_tag = list(categories_tag)
+        for cat in categories_list_tag:
+            parameters = {
+                'action': 'process',
+                'tagtype_0': 'categories',
+                'tag_contains_0': 'contains',
+                'tag_0': cat,
+                'page_size': '5',
+                'json': '1',
+            }
+
+            products = access_url(SEARCH_URL, parameters)
+            create_products(products['products'])
+
+    temporary_substitutes = list(Product.objects.filter(score__lt=product.score).filter(
+            categories__in=categories).order_by('score').exclude(id=product_id))
 
     # create dictionary to save potential substitutes' id as key
     # and the number of matching categories with original product as value
@@ -158,7 +146,7 @@ def get_substitutes(request, product_id):
     substitutes_id_list = list(map(lambda x: x[0], sorted_substitutes))
 
     #  get final query set with the products who match the identified substitutes id
-    substitutes_list = Product.objects.filter(id__in=substitutes_id_list)
+    substitutes_list = Product.objects.filter(id__in=substitutes_id_list).order_by('score')
 
     return display_products(request, substitutes_list, query=None)
 
@@ -169,7 +157,7 @@ def get_saved_substitutes(request):
     # get current user
     user = User.objects.get(pk=request.user.id)
     # get substitutes id for current user
-    substitutes_id_list = Substitute.objects.filter(user=user).values_list('id')
+    substitutes_id_list = Substitute.objects.filter(user=user).values_list('product')
     # get products that match the substitutes id
     substitutes_list = Product.objects.filter(id__in=substitutes_id_list).order_by('id')
 
@@ -199,3 +187,48 @@ def display_products(request, products_list, query):
     }
 
     return context
+
+
+# uncomment and call functions to directly fill local database with categories and products
+
+'''
+def get_categories():
+    """accesses Open Food Facts data and fills database with categories"""
+
+    print("Catégories en cours d'ajout à la base de données...")
+
+    # get categories list from API
+    categories_list = access_url(CATEGORIES_LIST_URL)
+    # browse categories
+    for i, category in enumerate(categories_list['tags']):
+        # create Category instance if category doesn't already exist and has a name and an id
+        if categories_list['tags'][i]['name'] and categories_list['tags'][i]['id'] and not \
+                Category.objects.filter(name=categories_list['tags'][i]['name']).exists():
+            category = Category.objects.create(name=categories_list['tags'][i]['name'],
+                                               tag=categories_list['tags'][i]['id'])
+            category.save()
+
+    print("Toutes les catégories ont été ajoutées à la base de données !")
+
+
+def get_products():
+    """accesses Open Food Facts data and fills database with products"""
+
+    print("Produits en cours d'ajout à la base de données...")
+
+    # browse nutrition grades
+    for score, score_image_url in zip(SCORES_LIST, SCORE_IMAGES_LIST):
+
+        # uncomment and replace MAX_PAGES_NUMBER by pages_count to get all products
+        # products_list_info = access_url(PRODUCTS_INFO_URL.format(score))
+        # pages_count = int(products_list_info['count'] / 20 + 1)
+
+        # browse pages for each nutrition grade
+        for page in range(1, MAX_PAGES_NUMBER):
+            # get products list for each page
+            products_list = access_url(PRODUCTS_LIST_URL.format(score, page))
+            # browse products
+            create_products(products_list)
+
+    print("Tous les produits ont été ajoutés à la base de données !")'''
+

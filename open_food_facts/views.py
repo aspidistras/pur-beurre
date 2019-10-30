@@ -5,6 +5,7 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.template import loader
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 
 from .models import Product, Substitute
@@ -91,6 +92,7 @@ def user_login(request):
     return render(request, 'open_food_facts/login.html', {'form': form})
 
 
+@login_required
 def account(request):
     """displays the user's account page with his data"""
 
@@ -102,10 +104,21 @@ def details(request, product_id):
     """displays the matching product's details"""
 
     # get product, if it doesn't exist display 404 error template
+    option = ""
     product = get_object_or_404(Product, pk=product_id)
-    return render(request, "open_food_facts/product.html", {'product': product})
+    if request.user.is_authenticated:
+        user_saved_substitutes = Substitute.objects.filter(user=request.user, product=product)
+        if len(user_saved_substitutes) is not 0:
+            option = 'Retirer ce produit de vos favoris'
+        else:
+            option = 'Ajouter aux produits favoris'
+    else:
+        option = 'Ajouter aux produits favoris'
+
+    return render(request, "open_food_facts/product.html", {'product': product, 'option': option})
 
 
+@login_required
 def user_logout(request):
     """logs out the user and redirects to index page"""
 
@@ -142,6 +155,7 @@ def search_substitutes(request, product_id):
     return render(request, "open_food_facts/results-substitutes.html", substitutes)
 
 
+@login_required
 def save_substitute(request, product_id, user_id):
     """creates a Substitute instance with the related user and product"""
 
@@ -155,10 +169,12 @@ def save_substitute(request, product_id, user_id):
     # create a message to confirm the substitute was saved, to be displayed on the product page
     messages.success(request, 'Le produit " ' + product.name
                      + ' " a bien été enregistré dans vos produits !')
+    option = "Retirer ce produit de vos favoris"
     # stay on the product's page with success message loaded
-    return render(request, "open_food_facts/product.html", {'product': product})
+    return render(request, "open_food_facts/product.html", {'product': product, 'option': option})
 
 
+@login_required
 def user_products(request):
     """gets all of a user's saved products and displays them"""
 
