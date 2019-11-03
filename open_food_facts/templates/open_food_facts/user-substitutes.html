@@ -1,6 +1,7 @@
 {% extends 'open_food_facts/listing.html' %}
 {% load static %}
 
+<div id="subs">
 {% block select %}
 
 <h5 class="text-white-75 font-weight-bold mb-5 msg">Voici les substituts que vous avez enregistrés : </h5>
@@ -10,15 +11,25 @@
 
 {% block display %}
 
+
 <div class="col-sm-4 text-center product">
-     <a href="{% url 'open_food_facts:details' product_id=product.id %}">
-        <img class="img-responsive pic-product" src="{{ product.image }}" alt="{{ product.name }}">
-     </a>
+    <div class="row align-items-center justify-content-center text-center">
+         <a href="{% url 'open_food_facts:details' product_id=product.id %}">
+             <div class="pic-product">
+                 <img class="img-responsive" src="{{ product.image }}" alt="{{ product.name }}">
+             </div>
+
+         </a>
+        </div>
+
+
+    <div class="row align-items-center justify-content-center text-center">
      <h5>
          <a href="{% url 'open_food_facts:details' product_id=product.id %}" class="text-white-75 font-weight-light mb-5 product-name">{{ product.name }}
          </a>
      </h5>
-
+        </div>
 </div>
 
 {% endblock %}
+    </div>

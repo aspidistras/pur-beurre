@@ -1,30 +1,69 @@
 {% extends 'open_food_facts/listing.html' %}
 {% load static %}
 
-{% block div %}
 
-Nous n'avons pas trouvé de résultats pour votre requête. Essayez un autre aliment !
-<form method="post" action="{% url 'open_food_facts:search' %}">
-    {% csrf_token %}
-     <input type="search" id="research" name="search" placeholder="Produit">
-</form>
-<a class="btn btn-primary btn-xl js-scroll-trigger" href="/search/" id="research-button">Chercher</a>
+{% block product %}
+
+<div class="row" id="to-substitute">
+    {% for product in product_to_substitute %}
+    <div class="text-center">
+        <h5 class="row text-white-75 font-weight-bold mb-5 msg">Vous avez choisi ce produit : </h5>
+    <div class="row align-items-center justify-content-center text-center">
+         <a href="{% url 'open_food_facts:details' product_id=product.id %}">
+             <div class="pic-product">
+                 <img class="img-responsive" src="{{ product.image }}" alt="{{ product.name }}">
+                 <div class="nutriscore">{{ product.score }}</div>
+             </div>
+
+         </a>
+        </div>
+
+
+    <div class="row align-items-center justify-content-center text-center">
+     <h5>
+         <a href="{% url 'open_food_facts:details' product_id=product.id %}" class="text-white-75 font-weight-light mb-5 product-name">{{ product.name }}
+         </a>
+     </h5>
+        </div>
+
+</div>
+
+                    {% endfor %}
+
+</div>
+{% endblock %}
+
+{% block select %}
+
+<h5 class="row text-white-75 font-weight-bold mb-5 msg">Vous pouvez remplacer cet aliment par :</h5>
 
 {% endblock %}
+
 
 
 {% block display %}
 
 <div class="col-sm-4 text-center product">
+    <div class="row align-items-center justify-content-center text-center">
          <a href="{% url 'open_food_facts:details' product_id=product.id %}">
-            <img class="img-responsive pic-product" src="{{ product.image }}" alt="{{ product.name }}">
-         </a>
-        <h3 id="nutriscore">{{ product.score }}</h3>
+             <div class="pic-product">
+                 <img class="img-responsive" src="{{ product.image }}" alt="{{ product.name }}">
+                 <div class="nutriscore">{{ product.score }}</div>
+             </div>
 
+         </a>
+        </div>
+
+
+    <div class="row align-items-center justify-content-center text-center">
      <h5>
          <a href="{% url 'open_food_facts:details' product_id=product.id %}" class="text-white-75 font-weight-light mb-5 product-name">{{ product.name }}
          </a>
      </h5>
+        </div>
+    <a href="{% url 'open_food_facts:save_substitute' product_id=product.id %}">
+        <h6>Sauvegarder cet aliment</h6>
+    </a>
 
 </div>
 

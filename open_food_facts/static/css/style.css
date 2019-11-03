@@ -6,6 +6,12 @@
     background-image: url("../img/background-account.jpg");
 }
 
+#search {
+    height: auto;
+}
+
+
+
 .well img{
 display: inline-block;
 }
@@ -165,7 +171,6 @@ input {
     opacity: 0.8;
     font-size: 20px;
     margin-bottom: 40px;
-    margin-top: 100px;
     width: 50%;
     height: 35%;
 }
@@ -200,9 +205,9 @@ input {
 
 
 .pagination {
-margin-top: 30px;
     font-size: 20px;
     text-align: center;
+
 }
 
 .page-item, .disabled, .page-link, .next, .previous {
@@ -272,7 +277,7 @@ margin-top: 30px;
     margin: auto;
     left: 0;
     right: 0;
-    margin-bottom: 70px
+    margin-bottom: 70px;
 
 }
 
@@ -286,9 +291,13 @@ margin-top: 30px;
 }
 
 .pic-product {
-    margin-bottom: 20px;
     border: solid 0.2rem;
     border-color: white;
+    margin-bottom: 10px;
+    position: relative;
+    width: auto;
+    float: right;
+    display: inline;
 
 }
 
@@ -304,6 +313,7 @@ margin-top: 30px;
 .product-btn {
     margin-bottom: 20px;
     border: solid white;
+
 }
 
 .listing {
@@ -321,7 +331,30 @@ margin-top: 30px;
     margin: 30px;
     margin-top: 50px;
     height: auto;
+    width: auto;
     text-align: center;
+
+}
+
+#listing {
+    min-height: 100vh;
+}
+
+#to-substitute {
+ color: rgba(255,255,255,.7);
+    font-weight: 900;
+    font-family: "Merriweather Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+    background-color: black;
+    padding: 40px;
+    border-radius: 20px;
+    border: solid;
+    border-color: black;
+    opacity: 0.8;
+    font-size: 10px;
+    height: auto;
+    width: auto;
+    text-align: center;
+    margin-top: 40px;
 
 }
 
@@ -331,23 +364,23 @@ margin-top: 30px;
 }
 
 .product {
-    margin-bottom: 20px;
-
+    margin-bottom: 30px;
 }
 
-#nutriscore {
+.nutriscore {
+    color: rgba(255,255,255,.7);
     position: absolute;
     top: -10%;
-    right: 15%;
+    right: -10%;
     border: solid white;
     border-radius: 50px;
     background-color: black;
     width: 50px;
     height: 40px;
     text-transform : capitalize;
+    font-size: 25px;
+
 }
-
-
 
 .messages li {
     list-style-type: none;

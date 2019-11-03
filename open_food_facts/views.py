@@ -151,16 +151,24 @@ def search_substitutes(request, product_id):
 
     # call get_substitutes function
     substitutes = get_substitutes(request, product_id)
+    substitutes['product_to_substitute'] = Product.objects.filter(id=product_id)
+    # if no products were found
+    if len(substitutes['products']) == 0:
+        # no need for pagination
+        substitutes['paginate'] = False
+        # displays a page to tell the user that there were no results to his search
+        # and invite him to search another keyword
+        return render(request, "open_food_facts/search-no-result.html", substitutes)
     # displays a page (or multiple) with the list of potential substitutes found
     return render(request, "open_food_facts/results-substitutes.html", substitutes)
 
 
 @login_required
-def save_substitute(request, product_id, user_id):
+def save_substitute(request, product_id):
     """creates a Substitute instance with the related user and product"""
 
     # get current user
-    user = User.objects.get(pk=user_id)
+    user = User.objects.get(pk=request.user.id)
     # get product to save
     product = Product.objects.get(pk=product_id)
     # create substitute with related user and product

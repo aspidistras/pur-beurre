@@ -21,7 +21,9 @@
                  <div class="row align-items-center justify-content-center text-center" id="message">
 <ul class="messages">
     {% for message in messages %}
-    <h3{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% if message.tags %}
+    <h4 class="{{ message.tags }}">{{ message }}</h4>
+    {% endif %}
     {% endfor %}
 </ul>
    </div>
@@ -43,6 +45,7 @@
         </div>
 
 
+    </div>
     </div>
  </header>
 

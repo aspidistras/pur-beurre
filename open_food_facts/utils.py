@@ -69,12 +69,15 @@ def get_products_search(request):
             # get products that match query
             parameters = {
                 'action': 'process',
-                'page_size': '15',
+                'page_size': '20',
                 'search_terms': query,
                 'json': '1',
             }
-            products = access_url(SEARCH_URL, parameters)
-            create_products(products['products'])
+
+            potential_products_list = Product.objects.filter(name__icontains=query)
+            if len(potential_products_list) < 6:
+                products = access_url(SEARCH_URL, parameters)
+                create_products(products['products'])
 
             PRODUCTS_LIST = Product.objects.filter(name__icontains=query).order_by('name')
             QUERY = query
@@ -108,7 +111,7 @@ def get_substitutes(request, product_id):
                 'tagtype_0': 'categories',
                 'tag_contains_0': 'contains',
                 'tag_0': cat,
-                'page_size': '5',
+                'page_size': '10',
                 'json': '1',
             }
 
