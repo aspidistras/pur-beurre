@@ -5,10 +5,12 @@ import requests
 
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 
-from .constants import CATEGORIES_LIST_URL, PRODUCTS_LIST_URL, SCORES_LIST, SCORE_IMAGES_LIST, \
-    MAX_PAGES_NUMBER, SEARCH_URL
+from .constants import SCORE_IMAGES_LIST, SEARCH_URL
+
 # uncomment to get all products
-# from .constants import PRODUCTS_INFO_URL
+# from .constants import PRODUCTS_INFO_URL, CATEGORIES_LIST_URL, PRODUCTS_LIST_URL,
+# SCORES_LIST, MAX_PAGES_NUMBER
+
 from .models import Category, Product, Substitute, User
 
 
@@ -22,6 +24,8 @@ def access_url(url, parameters):
 
 
 def create_products(products):
+    """browses a list of products to create Product instances"""
+
     for product in products:
         # create Product instance if product doesn't already exist and has a french name
         try:
@@ -100,7 +104,7 @@ def get_substitutes(request, product_id):
     potential_substitutes = list(Product.objects.filter(score__lt=product.score).filter(
         categories__in=categories).order_by('score').exclude(id=product_id))
 
-    if len(potential_substitutes) < 3:
+    if len(potential_substitutes) < 6:
         # get categories from product to substitute
         categories_tag = product.categories.values_list('tag', flat=True)
         # turn the query set into a list to use later
@@ -118,8 +122,9 @@ def get_substitutes(request, product_id):
             products = access_url(SEARCH_URL, parameters)
             create_products(products['products'])
 
-    temporary_substitutes = list(Product.objects.filter(score__lt=product.score).filter(
-            categories__in=categories).order_by('score').exclude(id=product_id))
+    temporary_substitutes = list(Product.objects.filter(score__lt=product.score).
+                                 filter(categories__in=categories).order_by('score').
+                                 exclude(id=product_id))
 
     # create dictionary to save potential substitutes' id as key
     # and the number of matching categories with original product as value
@@ -234,4 +239,3 @@ def get_products():
             create_products(products_list)
 
     print("Tous les produits ont été ajoutés à la base de données !")'''
-

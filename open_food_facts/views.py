@@ -107,7 +107,7 @@ def details(request, product_id):
     product = get_object_or_404(Product, pk=product_id)
     if request.user.is_authenticated:
         user_saved_substitutes = Substitute.objects.filter(user=request.user, product=product)
-        if len(user_saved_substitutes) is not 0:
+        if len(user_saved_substitutes) != 0:
             add = False
         else:
             add = True
@@ -201,6 +201,8 @@ def user_products(request):
 
 @login_required
 def unsave_product(request, product_id):
+    """deletes a substitute instance to remove a product from user's favorites"""
+
     user = User.objects.get(id=request.user.id)
     product = Product.objects.get(id=product_id)
     substitute = Substitute.objects.get(user_id=user.id, product_id=product.id)
@@ -208,4 +210,3 @@ def unsave_product(request, product_id):
     add = True
 
     return render(request, "open_food_facts/product.html", {'product': product, 'add': add})
-
