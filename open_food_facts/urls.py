@@ -22,5 +22,7 @@ urlpatterns = [
     url(r'^save-substitute/(?P<product_id>[0-9]+)/$', views.save_substitute,
         name='save_substitute'),
     url(r'^substitutes/$', views.user_products, name="user_products"),
-    url(r'^legal-notices/$', views.legal_notices, name='legal_notices')
+    url(r'^legal-notices/$', views.legal_notices, name='legal_notices'),
+    url(r'^unsave/(?P<product_id>[0-9]+)/$', views.unsave_product, name='unsave'),
+
 ]

@@ -69,7 +69,7 @@ def get_products_search(request):
             # get products that match query
             parameters = {
                 'action': 'process',
-                'page_size': '20',
+                'page_size': '30',
                 'search_terms': query,
                 'json': '1',
             }
@@ -111,7 +111,7 @@ def get_substitutes(request, product_id):
                 'tagtype_0': 'categories',
                 'tag_contains_0': 'contains',
                 'tag_0': cat,
-                'page_size': '10',
+                'page_size': '30',
                 'json': '1',
             }
 
@@ -143,7 +143,7 @@ def get_substitutes(request, product_id):
     # sort categories occurrence dict to get the potential substitutes
     # with the most matching categories and limit result to 12 substitutes
     sorted_substitutes = sorted(categories_occurrence_dict.items(), key=lambda x: x[1],
-                                reverse=True)[:12]
+                                reverse=True)[:6]
 
     # turn sorted substitutes into a list of the substitutes ids
     substitutes_id_list = list(map(lambda x: x[0], sorted_substitutes))

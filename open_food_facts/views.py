@@ -104,18 +104,17 @@ def details(request, product_id):
     """displays the matching product's details"""
 
     # get product, if it doesn't exist display 404 error template
-    option = ""
     product = get_object_or_404(Product, pk=product_id)
     if request.user.is_authenticated:
         user_saved_substitutes = Substitute.objects.filter(user=request.user, product=product)
         if len(user_saved_substitutes) is not 0:
-            option = 'Retirer ce produit de vos favoris'
+            add = False
         else:
-            option = 'Ajouter aux produits favoris'
+            add = True
     else:
-        option = 'Ajouter aux produits favoris'
+        add = True
 
-    return render(request, "open_food_facts/product.html", {'product': product, 'option': option})
+    return render(request, "open_food_facts/product.html", {'product': product, 'add': add})
 
 
 @login_required
@@ -177,9 +176,9 @@ def save_substitute(request, product_id):
     # create a message to confirm the substitute was saved, to be displayed on the product page
     messages.success(request, 'Le produit " ' + product.name
                      + ' " a bien été enregistré dans vos produits !')
-    option = "Retirer ce produit de vos favoris"
+    add = False
     # stay on the product's page with success message loaded
-    return render(request, "open_food_facts/product.html", {'product': product, 'option': option})
+    return render(request, "open_food_facts/product.html", {'product': product, 'add': add})
 
 
 @login_required
@@ -198,3 +197,15 @@ def user_products(request):
 
     # displays a page (or multiple) with the list of products found
     return render(request, "open_food_facts/user-substitutes.html", products)
+
+
+@login_required
+def unsave_product(request, product_id):
+    user = User.objects.get(id=request.user.id)
+    product = Product.objects.get(id=product_id)
+    substitute = Substitute.objects.get(user_id=user.id, product_id=product.id)
+    substitute.delete()
+    add = True
+
+    return render(request, "open_food_facts/product.html", {'product': product, 'add': add})
+
