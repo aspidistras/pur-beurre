@@ -11,7 +11,7 @@ app_name = 'open_food_facts'
 urlpatterns = [
     url(r'^$', views.index, name='index'),
     url(r'^user/$', views.get_user, name="get_new_user"),
-    url(r'^thanks/$', views.thanks),
+    url(r'^thanks/$', views.thanks, name="thanks"),
     url(r'^login/$', views.user_login, name="login"),
     url(r'^account/$', views.account, name="account"),
     url(r'^logout/$', views.user_logout),
