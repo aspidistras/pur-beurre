@@ -7,7 +7,11 @@ services:
   - postgresql
 
 before_script:
-- cp config/database.yml.travis config/database.yml
+  - psql -c "CREATE USER clem WITH PASSWORD 'clem';" -U postgres
+  - psql -c "CREATE DATABASE food_platform;" -U postgres
+  - psql -c "GRANT ALL ON DATABASE food_platform TO clem;" -U postgres
+  - psql -c "ALTER USER clem WITH CREATEDB;" -U postgres
+  - cp config/database.yml.travis config/database.yml
 
 install:
   - pip install -r requirements.txt
