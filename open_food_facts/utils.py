@@ -11,7 +11,7 @@ from .constants import SCORE_IMAGES_LIST, SEARCH_URL, PRODUCTS_LIST_URL,SCORES_L
 # uncomment to use get_categories()
 # from .constants import PRODUCTS_INFO_URL, CATEGORIES_LIST_URL,
 
-from .models import Category, Product, Substitute, User
+from open_food_facts.models import Category, Product, Substitute, User
 
 
 def access_url(url, parameters):

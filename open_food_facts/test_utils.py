@@ -6,6 +6,8 @@ from django.test import Client
 from django.contrib.auth.models import User
 
 from open_food_facts.models import Product, Category, Substitute
+from open_food_facts.utils import access_url, create_products
+from open_food_facts.constants import CATEGORIES_LIST_URL, PRODUCTS_LIST_URL
 
 # Create your tests here.
 
@@ -16,6 +18,8 @@ class GetDataTestCase(TestCase):
     def setUp(self):
         """creates needed objects for following tests
         (category, product, user and client) and logs client in"""
+
+        self.products = access_url(PRODUCTS_LIST_URL.format("a", "1"), parameters=None)
 
         self.category = Category.objects.create(tag="foods")
         self.product = Product.objects.create(name="Nutella", score="c", url="p")
@@ -28,6 +32,20 @@ class GetDataTestCase(TestCase):
         self.client = Client()
         self.client.login(username='test', password='test')
         self.saved_substitute = Substitute.objects.create(user=self.user, product=self.substitute)
+
+    def test_access_url(self):
+        """asserts that url is accessible"""
+
+        response = access_url(CATEGORIES_LIST_URL, parameters=None)
+        self.assertEqual(response['count'], 16970)
+
+    def test_product_creation(self):
+        """asserts that product is created in database"""
+
+        old_products = Product.objects.count()
+        create_products(self.products['products'])
+        new_products = Product.objects.count()
+        self.assertNotEqual(old_products, new_products)
 
     def test_get_products_search(self):
         """asserts that searches give expected result"""
