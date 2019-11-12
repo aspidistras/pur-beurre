@@ -107,3 +107,6 @@ venv.bak/
 
 
 /staticfiles
+Pipfile.lock
+Pipfile
+pur_beurre/settings/production.py
