@@ -30,7 +30,7 @@ else:
     DEBUG = True
 
 
-ALLOWED_HOSTS = ['0.0.0.0', 'localhost']
+ALLOWED_HOSTS = ['0.0.0.0', 'localhost', 'https://pur-beurre-oc.herokuapp.com']
 
 LOGIN_URL = "/login"
 
