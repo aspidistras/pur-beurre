@@ -1,12 +1,14 @@
 """views creating module"""
 
 from django.shortcuts import get_object_or_404, render
-from django.http import HttpResponseRedirect, HttpResponse
+from django.http import HttpResponseRedirect, HttpResponse, HttpResponseNotFound
 from django.template import loader
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from sentry_sdk import capture_message
+import logging
 
 from .models import Product, Substitute
 from .forms import LoginForm, UserForm
@@ -19,6 +21,13 @@ def index(request):
 
     template = loader.get_template("open_food_facts/index.html")
     return HttpResponse(template.render(request=request))
+
+
+def page_not_found():
+    capture_message("Page not found!", level="error")
+
+    # return any response here, e.g.:
+    return HttpResponseNotFound("Not found")
 
 
 def legal_notices(request):
@@ -46,6 +55,7 @@ def get_user(request):
             user.save()
             form.clean()
 
+            logging.info("New user has created an account")
             # redirect to a new URL:
             return HttpResponseRedirect('/thanks/')
 
@@ -136,6 +146,7 @@ def search_products(request):
     if len(products['products']) == 0:
         # no need for pagination
         products['paginate'] = False
+        logging.warning("No results for this search : ", request)
         # displays a page to tell the user that there were no results to his search
         # and invite him to search another keyword
         return render(request, "open_food_facts/search-no-result.html", products)
