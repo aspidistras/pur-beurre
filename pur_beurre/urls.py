@@ -22,7 +22,10 @@ from django.contrib import admin
 from django.conf.urls.static import static
 
 from open_food_facts import views
+from django.urls import path
 
+def trigger_error(request):
+    division_by_zero = 1 / 0
 
 sys.path.append('..')
 
@@ -30,6 +33,7 @@ sys.path.append('..')
 urlpatterns = [
     url(r'^$', views.index),
     url(r'^', include('open_food_facts.urls', namespace='open_food_facts')),
+    path('sentry-debug/', trigger_error),
     url(r'^admin/', admin.site.urls),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
