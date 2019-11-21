@@ -27,10 +27,10 @@ class GetDataTestCase(TestCase):
         self.substitute = Product.objects.create(name="Pâte à tartiner aux noisettes", score="a",
                                                  url="s")
         self.substitute.categories.add(self.category)
-        self.user = User.objects.create_user(username="test", last_name="test", first_name="test",
-                                             email="test@hotmail.fr", password="test")
+        self.user = User.objects.create_user(username="test_user", last_name="test", first_name="test",
+                                             email="test_user@test.fr", password="test")
         self.client = Client()
-        self.client.login(username='test', password='test')
+        self.client.login(username='test_user', password='test')
         self.saved_substitute = Substitute.objects.create(user=self.user, product=self.substitute)
 
     def test_access_url(self):

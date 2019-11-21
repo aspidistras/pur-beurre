@@ -46,10 +46,10 @@ class UserPagesTestCase(TestCase):
     def setUp(self):
         """creates needed objects for following tests (user and client) and logs client in"""
 
-        self.user = User.objects.create_user(username="test", last_name="test", first_name="test",
-                                             email="test@hotmail.fr", password="test")
+        self.user = User.objects.create_user(username="test_user", last_name="test", first_name="test",
+                                             email="test_user@test.fr", password="test")
         self.client = Client()
-        self.client.login(username='test', password='test')
+        self.client.login(username='test_user', password='test')
 
     def test_user_is_signed_in(self):
         """checks that thanks page returns status code 200 which means user created his account"""
@@ -96,10 +96,10 @@ class SubstitutePagesTestCase(TestCase):
         self.substitute = Product.objects.create(name="Pâte à tartiner aux noisettes", score="a",
                                                  url="s")
         self.substitute.categories.add(self.category)
-        self.user = User.objects.create_user(username="test", last_name="test", first_name="test",
-                                             email="test@hotmail.fr", password="test")
+        self.user = User.objects.create_user(username="test_user", last_name="test", first_name="test",
+                                             email="test_user@test.fr", password="test")
         self.client = Client()
-        self.client.login(username='test', password='test')
+        self.client.login(username='test_user', password='test')
         self.saved_substitute = Substitute.objects.create(user=self.user, product=self.substitute)
 
     def test_product_details_page(self):
