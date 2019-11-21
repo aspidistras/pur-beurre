@@ -16,6 +16,9 @@ from .forms import LoginForm, UserForm
 from .utils import get_substitutes, get_saved_substitutes, get_products_search
 
 
+logger = logging.getLogger(__name__)
+
+
 def index(request):
     """displays the main page"""
 
@@ -55,7 +58,7 @@ def get_user(request):
             user.save()
             form.clean()
 
-            logging.info("New user has created an account")
+            logger.info("New user has created an account")
             # redirect to a new URL:
             return HttpResponseRedirect('/thanks/')
 
@@ -146,7 +149,7 @@ def search_products(request):
     if len(products['products']) == 0:
         # no need for pagination
         products['paginate'] = False
-        logging.warning("No results for this search : ", request)
+        logger.warning("No results for this search : ", request)
         # displays a page to tell the user that there were no results to his search
         # and invite him to search another keyword
         return render(request, "open_food_facts/search-no-result.html", products)
