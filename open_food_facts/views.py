@@ -8,15 +8,11 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from sentry_sdk import capture_message
-import logging
 
 from .models import Product, Substitute
 from .forms import LoginForm, UserForm
 # import methods to use in views
 from .utils import get_substitutes, get_saved_substitutes, get_products_search
-
-
-logger = logging.getLogger(__name__)
 
 
 def index(request):
@@ -27,10 +23,17 @@ def index(request):
 
 
 def page_not_found(request, exception):
-    capture_message("Page not found !", level="error")
+    capture_message("Page not found", level="error")
 
     # return any response here, e.g.:
     return render(request, "404.html")
+
+
+def internal_server_error(request, exception):
+    capture_message("Internal server error", level="error")
+
+    # return any response here, e.g.:
+    return render(request, "500.html")
 
 
 def legal_notices(request):
@@ -58,7 +61,7 @@ def get_user(request):
             user.save()
             form.clean()
 
-            logger.info("New user has created an account")
+            capture_message("New user has created an account")
             # redirect to a new URL:
             return HttpResponseRedirect('/thanks/')
 
@@ -149,7 +152,7 @@ def search_products(request):
     if len(products['products']) == 0:
         # no need for pagination
         products['paginate'] = False
-        logger.warning("No results for this search : ", request)
+        capture_message("No results for this search : ", request, level="warning")
         # displays a page to tell the user that there were no results to his search
         # and invite him to search another keyword
         return render(request, "open_food_facts/search-no-result.html", products)
@@ -169,6 +172,7 @@ def search_substitutes(request, product_id):
     if len(substitutes['products']) == 0:
         # no need for pagination
         substitutes['paginate'] = False
+        capture_message("No substitute for this product : ", request, level="warning")
         # displays a page to tell the user that there were no results to his search
         # and invite him to search another keyword
         return render(request, "open_food_facts/search-no-result.html", substitutes)
