@@ -152,7 +152,7 @@ def search_products(request):
     if len(products['products']) == 0:
         # no need for pagination
         products['paginate'] = False
-        capture_message("No results for this search : ", request, level="warning")
+        capture_message("No results for this search", level="warning")
         # displays a page to tell the user that there were no results to his search
         # and invite him to search another keyword
         return render(request, "open_food_facts/search-no-result.html", products)
@@ -172,7 +172,7 @@ def search_substitutes(request, product_id):
     if len(substitutes['products']) == 0:
         # no need for pagination
         substitutes['paginate'] = False
-        capture_message("No substitute for this product : ", request, level="warning")
+        capture_message("No substitute for this product", level="warning")
         # displays a page to tell the user that there were no results to his search
         # and invite him to search another keyword
         return render(request, "open_food_facts/search-no-result.html", substitutes)
