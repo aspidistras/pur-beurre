@@ -31,6 +31,7 @@ def trigger_error(request):
 
 sys.path.append('..')
 
+handler404 = 'open_food_facts.views.page_not_found'
 
 urlpatterns = [
     url(r'^$', views.index),

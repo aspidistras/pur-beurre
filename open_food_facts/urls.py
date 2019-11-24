@@ -26,4 +26,4 @@ urlpatterns = [
     url(r'^unsave/(?P<product_id>[0-9]+)/$', views.unsave_product, name='unsave'),
 ]
 
-handler404 = 'open_food_facts.views.page_not_found'
+
