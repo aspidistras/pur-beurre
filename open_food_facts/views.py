@@ -26,11 +26,11 @@ def index(request):
     return HttpResponse(template.render(request=request))
 
 
-def page_not_found():
-    capture_message("Page not found!", level="error")
+def page_not_found(request, exception):
+    capture_message("Page not found !", level="error")
 
     # return any response here, e.g.:
-    return HttpResponseNotFound("Not found")
+    return render(request, "404.html")
 
 
 def legal_notices(request):
