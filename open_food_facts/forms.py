@@ -28,3 +28,8 @@ class UserForm(ModelForm):
             'username': 'Pseudo', 'first_name': 'Prénom', 'last_name': 'Nom',
             'password': 'Mot de passe',
         }
+
+        help_texts = {
+            'username': None,
+        }
+

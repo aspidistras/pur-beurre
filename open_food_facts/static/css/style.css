@@ -4,13 +4,18 @@
 
 #main-account, #search {
     background-image: url("../img/background-account.jpg");
-}
-
-#search {
     height: auto;
 }
 
+#main-account {
+    min-height: 100vh;
+    text-align: center;
+    vertical-align: middle;
+}
 
+#page-top {
+    height: auto;
+}
 
 .well img{
 display: inline-block;
@@ -91,6 +96,7 @@ figcaption {
     margin-bottom: 40px;
     margin-top: 50px;
     width: 60%;
+
 }
 
 #site-search:focus, #base-search:focus, input:focus {
@@ -134,6 +140,7 @@ input {
     margin: auto;
     padding: 30px;
     display: inline-block;
+    margin-top: 200px;
 }
 
 #account {
@@ -146,8 +153,10 @@ input {
     border-color: black;
     opacity: 0.8;
     margin: auto;
+    margin-top: 150px;
     padding: 80px;
     display: inline-block;
+    height: auto;
 
 }
 
@@ -240,11 +249,20 @@ input {
 
 
 #details {
-    height: 40vh;
+    min-height: 40vh;
     margin: auto;
-    padding: 70px 70px;
+    padding-top: 70px;
+    padding-bottom: 50px;
+    padding-left: 150px;
+    padding-right: 150px;
     vertical-align: middle;
-    min-height: auto;
+    height: auto;
+}
+
+@media (max-width: 992px){
+    #nutrition {
+        padding-top: 60px;
+    }
 }
 
 #access-details {
@@ -256,30 +274,26 @@ input {
 }
 
 #product {
-    height: 60vh;
+    min-height: 60vh;
+    height: auto;
     background-color: #f4623a;
     opacity: 0.7;
-    position: relative;
     padding: auto;
     margin: auto;
     color: white;
+    padding-top: 230px;
+}
 
+@media (max-width: 992px){
+    #product {
+        padding-top: 150px;
+    }
 }
 
 #product-page {
-    max-height: 100vh;
-    min-height: auto;
+    height: auto;
 }
 
-#display {
-    position: absolute;
-    bottom: 40px;
-    margin: auto;
-    left: 0;
-    right: 0;
-    margin-bottom: 70px;
-
-}
 
 .btns {
     vertical-align: middle;

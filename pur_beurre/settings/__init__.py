@@ -26,7 +26,7 @@ SECRET_KEY = '(p*(l%p430)_(#dis**@4(nh2_)80x^sy0(l9b+8ow813g!(9b'
 DEBUG = True
 
 
-ALLOWED_HOSTS = ['0.0.0.0', 'localhost']
+ALLOWED_HOSTS = ['0.0.0.0', 'localhost', '127.0.0.1']
 
 LOGIN_URL = "/login"
 
